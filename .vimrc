@@ -1,15 +1,22 @@
-"プラグイン管理neobundle
 set nocompatible               " be iMproved
 filetype off
 
 
 if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim
-  call neobundle#rc(expand('~/.vim/bundle/'))
+  set runtimepath+=~/dotfiles/.vim/bundle/neobundle.vim
+  call neobundle#rc(expand('~/dotfiles/.vim/bundle/'))
 endif
-" originalrepos on github
-NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc'
+
+" manage vim plugin
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+NeoBundle 'Shougo/vimproc', { 'build': {
+	\	  'cygwin': 'make -f make_cygwin.mak',
+	\	  'mac': 'make -f make_mac.mak',
+	\	  'unix': 'make -f make_unix.mak',
+	\	 },
+	\}
+
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
@@ -52,6 +59,8 @@ NeoBundleLazy "jmcantrell/vim-virtualenv", {
       \ "autoload": {
       \   "filetypes": ["python", "python3", "djangohtml"]
       \ }}
+
+call neobundle#end()
 
 nmap <Leader>t :TagbarToggle<CR>
 
