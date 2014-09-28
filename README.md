@@ -4,6 +4,8 @@ setup
 ```
 cd
 git clone git://github.com/imadoki/dotfiles.git
-./dotfiles/setup.sh
+cd  dotfiles
+git submodule update --init
+./setup.sh
 vim +NeoBundleInstall +q
 ```

@@ -20,11 +20,7 @@ NeoBundle 'Shougo/vimproc', { 'build': {
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
-NeoBundle 'git://github.com/kevinw/pyflakes-vim.git'
-NeoBundle 'git://git.code.sf.net/p/vim-latex/vim-latex'
-" vimfiler
 NeoBundle 'Shougo/vimfiler'
-" vimshell
 NeoBundle 'Shougo/vimshell'
 " comentout
 NeoBundle 'tyru/caw.vim'
@@ -49,12 +45,23 @@ NeoBundleLazy 'soramugi/auto-ctags.vim', {
 		\ "filetypes": ["cc", "py"]
 		\}}
 
-" Djangoを正しくVimで読み込めるようにする
+" latex settings
+NeoBundleLazy 'git://git.code.sf.net/p/vim-latex/vim-latex', {
+	\ "autoload": {
+	\   "filetypes": ["tex"]
+	\ }
+	\}
+
+" python settings
+NeoBundleLazy 'git://github.com/kevinw/pyflakes-vim.git', {
+	\ "autoload": {
+	\   "filetypes": ["python", "python3"]
+	\ }
+	\}
 NeoBundleLazy "lambdalisue/vim-django-support", {
       \ "autoload": {
       \   "filetypes": ["python", "python3", "djangohtml"]
       \ }}
-" Vimで正しくvirtualenvを処理できるようにする
 NeoBundleLazy "jmcantrell/vim-virtualenv", {
       \ "autoload": {
       \   "filetypes": ["python", "python3", "djangohtml"]
@@ -62,7 +69,6 @@ NeoBundleLazy "jmcantrell/vim-virtualenv", {
 
 call neobundle#end()
 
-nmap <Leader>t :TagbarToggle<CR>
 
 "-------------------------------------------------
 "" neocomplcache設定
@@ -79,15 +85,10 @@ let g:neocomplcache_caching_percent_in_statusline = 1
 let g:neocomplcache_enable_skip_completion = 1
 let g:neocomplcache_skip_input_time = '0.5'
 
-set rtp+=~/.vim/vundle.git/
-
 " caw.vim
 " '\c' is comentout and coment
 nmap <Leader>c <Plug>(caw:i:toggle)
 vmap <Leader>c <Plug>(caw:i:toggle)
-
-" backスペースでtabなどを削除できるようにする
-set backspace=indent,eol,start
 
 filetype plugin indent on     " required!
 filetype indent on
@@ -97,17 +98,6 @@ filetype indent on
 " set background=dark
 " colorscheme solarized
 set t_Co=256
-
-syntax on
-set history=50
-set ignorecase
-set smartcase
-set hlsearch
-set incsearch
-set number
-set showmatch
-set wrap
-set tabstop=4
 
 " setting python django css
 autocmd FileType css,javascript setl autoindent
@@ -133,15 +123,14 @@ au BufNewFile,BufRead *.py set tags+=$HOME/tags/Python.tags
 au BufNewFile,BufRead *.py let g:vim_tags_project_tags_command = "ctags --languages=Python -f ~/tags/Python.tags `pwd` 2>/dev/null"
 " tagsジャンプの時に複数ある時は一覧表示
 nnoremap <C-]> g<C-]> 
+nmap <Leader>t :TagbarToggle<CR>
 
+" auto-ctags.vim
 let s:bundle = neobundle#get("auto-ctags.vim")
 function! s:bundle.hooks.on_source(bundle)
-	let g:auto_ctags = 1
+	let g:auto_ctags = 1	" ファイル保存時にtagsを更新
 endfunction
 unlet s:bundle
-" ファイル保存時にtagsファイルを作成する．
-let g:auto_ctags = 1
-
 
 " vimfiler
 " 現在開いているバッファをIDE風に開く
@@ -149,3 +138,19 @@ nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -splite -simple -winwidth=3
 
 " 
 nnoremap <C-L> :nohl<CR><C-L>
+
+syntax on
+
+" backスペースでtabなどを削除できるようにする
+set backspace=indent,eol,start
+set history=50
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+set number
+set showmatch
+set wrap
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
