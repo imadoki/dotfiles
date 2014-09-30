@@ -22,10 +22,15 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/vimshell'
+
+" snippet plugins
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'honza/vim-snippets'
+
 " comentout
 NeoBundle 'tyru/caw.vim'
 " memolist
-NeoBundle 'glidenote/memolist.vim'
+" NeoBundle 'glidenote/memolist.vim'
 
 " install colorscheme
 NeoBundle 'tomasr/molokai'
@@ -37,13 +42,19 @@ NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'kannokanno/previm'
 NeoBundle 'tyru/open-browser.vim'
 
-" ctag関連
+" ctags
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'szw/vim-tags'
 NeoBundleLazy 'soramugi/auto-ctags.vim', {
 		\ "autoload": {
 		\ "filetypes": ["cc", "py"]
 		\}}
+
+"c++ plugins
+NeoBundleLazy 'vim-jp/cpp-vim', {
+	\ "autoload": {
+	\	'filetypes': ['cc', 'cpp']
+	\}}
 
 " latex settings
 NeoBundleLazy 'git://git.code.sf.net/p/vim-latex/vim-latex', {
@@ -84,6 +95,22 @@ let g:neocomplcache_manual_completion_start_length = 0
 let g:neocomplcache_caching_percent_in_statusline = 1
 let g:neocomplcache_enable_skip_completion = 1
 let g:neocomplcache_skip_input_time = '0.5'
+"" keybind
+" tabで下へ
+inoremap <expr><TAB> pumvisible() ? "\<Down>": "\<TAB>"
+" shift+tabで上へ
+inoremap <expr><S-TAB> pumvisible() ? "\<Up>": "\<S-TAB>"
+
+"---------------------------------------------------
+"" neosnippet設定
+"---------------------------------------------------
+let g:neosnippet#snippets_directory='~/dotfiles/.vim/bundle/vim-snippets/snippets, ~/dotfiles/.vim/snippets'
+"" keybind
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+imap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)": pumvisible() ? "\<C-n>": "\<TAB>"
+smap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)": "\<TAB>"
+
 
 " caw.vim
 " '\c' is comentout and coment
@@ -186,6 +213,8 @@ autocmd FileType htmldjango setl shiftwidth=2 tabstop=2 softtabstop=2
 
 " setting c++
 autocmd FileType cpp setl tabstop=4 shiftwidth=4 softtabstop=4
+" F5でmake
+noremap <F5> :<C-u>make<CR>
 
 " markdown setting
 autocmd BufRead,BufNewFile *.md set filetype=markdown
