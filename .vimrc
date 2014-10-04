@@ -25,6 +25,7 @@ NeoBundle 'Shougo/vimshell'
 
 " snippet plugins
 NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'honza/vim-snippets'
 
 " comentout
@@ -183,8 +184,9 @@ endif
 "" カラースキーマの設定
 "---------------------------------------------
 " set colorscheme
- colorscheme molokai
-" set background=dark
+colorscheme molokai
+let g:molokai_original=1
+set background=dark
 " colorscheme solarized
 set t_Co=256
 
