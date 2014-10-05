@@ -8,6 +8,10 @@ set showtabline=2
 " コマンドライン行数
 set cmdheight=1
 
+" 一時ファイルを作成しない
+set nobackup
+set noundofile
+
 " カラースキーム
 colorscheme molokai
 let g:molokai_original=1
