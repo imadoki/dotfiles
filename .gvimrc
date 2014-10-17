@@ -20,3 +20,6 @@ set background=dark
 
 " ビープ音を消す
 set visualbell t_vb=
+
+" .gvimrc
+set transparency=30
