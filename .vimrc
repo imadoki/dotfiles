@@ -48,7 +48,7 @@ NeoBundle 'majutsushi/tagbar'
 NeoBundle 'szw/vim-tags'
 NeoBundleLazy 'soramugi/auto-ctags.vim', {
 		\ "autoload": {
-		\ "filetypes": ["cc", "py"]
+		\ "filetypes": ["cpp", "py"]
 		\}}
 
 "c++ plugins
