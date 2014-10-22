@@ -22,4 +22,4 @@ set background=dark
 set visualbell t_vb=
 
 " .gvimrc
-set transparency=30
+set transparency=10

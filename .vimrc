@@ -28,6 +28,9 @@ NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'honza/vim-snippets'
 
+" quickrun
+NeoBundle 'thinca/vim-quickrun'
+
 " comentout
 NeoBundle 'tyru/caw.vim'
 " memolist
@@ -56,13 +59,6 @@ NeoBundleLazy 'vim-jp/cpp-vim', {
 	\ "autoload": {
 	\	'filetypes': ['cc', 'cpp']
 	\}}
-
-" latex settings
-NeoBundleLazy 'git://git.code.sf.net/p/vim-latex/vim-latex', {
-	\ "autoload": {
-	\   "filetypes": ["tex"]
-	\ }
-	\}
 
 " python settings
 NeoBundleLazy 'git://github.com/kevinw/pyflakes-vim.git', {
@@ -113,10 +109,30 @@ imap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)": p
 smap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)": "\<TAB>"
 
 
-" caw.vim
+"---------------------------------------------------
+"" cap.vim 設定
+"---------------------------------------------------
 " '\c' is comentout and coment
 nmap <Leader>c <Plug>(caw:i:toggle)
 vmap <Leader>c <Plug>(caw:i:toggle)
+
+"---------------------------------------------
+"" quickrunの設定
+"---------------------------------------------
+" QuickRunの設定オブジェクトを作成する
+let g:quickrun_config = {}
+let g:quickrun_config._ = {
+			\'runner': 'vimproc',
+			\  'runner/vimproc/updatetime': 100
+			\}
+let g:quickrun_config.tex = {
+			\  'command': 'latexmk',
+			\  'outputter': 'error',
+			\  'outputter/error/error': 'quickfix',
+			\  'cmdopt': '-gg -pdfdvi',
+			\  'exec': ['%c %o %s']
+			\}
+
 
 filetype plugin indent on     " required!
 filetype indent on
@@ -243,7 +259,16 @@ unlet s:bundle
 " 現在開いているバッファをIDE風に開く
 nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -splite -simple -winwidth=35 -no-quit<CR>
 
-" 
+"-------------------------------------------------------------
+"" その他の設定 キーパッピングとか
+"-------------------------------------------------------------
+" F9でvimrcを開く
+nnoremap <F9> :tabedit ~/.vimrc<CR>
+" F10でvimrc, gvimrcを読み込む
+nnoremap <F10> :source ~/.vimrc \| :source ~/.gvimrc<CR>
+" C-Lでハイライトを消す 
 nnoremap <C-L> :nohl<CR><C-L>
+" hellow
+nnoremap <C-H> :echo "Hellow World!"<CR>
 
 syntax on
