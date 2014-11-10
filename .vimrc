@@ -75,6 +75,9 @@ NeoBundleLazy "jmcantrell/vim-virtualenv", {
       \   "filetypes": ["python", "python3", "djangohtml"]
       \ }}
 
+" quickfix
+NeoBundle "osyo-manga/unite-quickfix"
+
 call neobundle#end()
 
 
@@ -132,6 +135,21 @@ let g:quickrun_config.tex = {
 			\  'cmdopt': '-gg -pdfdvi',
 			\  'exec': ['%c %o %s']
 			\}
+
+augroup myLaTexQuickrun
+	au!
+	au BufEnter *.tex nnoremap <Leader>v :call <SID>TexPdfView() <CR>
+augroup END
+function! s:TexPdfView()
+	let texPdfFilename = expand('%:r') . '.pdf'
+	if exists("g:quickrun_config['tex']['srcfile']")
+		let texPdfFilename = fnamemodify(g:quickrun_config['tex']['srcfile'], ':.:r') . '.pdf'
+	endif
+	if has('unix')
+		let g:TexPdfViewCommand = '!'. 'zathura '. texPdfFilename
+	endif
+	execute g:TexPdfViewCommand
+endfunction
 
 
 filetype plugin indent on     " required!

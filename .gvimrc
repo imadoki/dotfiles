@@ -23,3 +23,7 @@ set visualbell t_vb=
 
 " .gvimrc
 set transparency=10
+
+if has('mac')
+	set guifont=Ricty:h16
+endif
