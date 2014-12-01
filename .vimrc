@@ -263,7 +263,8 @@ autocmd FileType htmldjango setl autoindent
 autocmd FileType htmldjango setl shiftwidth=2 tabstop=2 softtabstop=2
 
 " setting c++
-autocmd FileType cpp setl tabstop=4 shiftwidth=4 softtabstop=4
+autocmd Filetype cpp setl autoindent
+autocmd FileType cpp setl expandtab tabstop=2 shiftwidth=2 softtabstop=2
 " F5でmake
 noremap <F5> :<C-u>make<CR>
 
