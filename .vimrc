@@ -249,6 +249,7 @@ set incsearch
 set number
 set showmatch
 set wrap
+set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
