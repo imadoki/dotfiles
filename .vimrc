@@ -76,12 +76,10 @@ NeoBundleLazy "jmcantrell/vim-virtualenv", {
       \ }}
 
 " processing syntax
-NeoBundleLazy 'sophacles/vim-processing'
-augroup Processing
-    autocmd!
-    autocmd BufNewFile *.pde NeoBundleSource vim-processing
-    autocmd BufRead    *.pde NeoBundleSource vim-processing
-augroup END
+NeoBundleLazy 'sophacles/vim-processing', {
+		\  "autoload": {
+		\    "filename_patterns": '.*\.pde'
+		\  }}
 
 " quickfix
 NeoBundle "osyo-manga/unite-quickfix"
@@ -161,9 +159,15 @@ function! s:TexPdfView()
 endfunction
 
 " run processing
+augroup Processing
+    autocmd!
+    autocmd BufNewFile *.pde :setl filetype=processing
+    autocmd BufReadPost *.pde :setl filetype=processing
+augroup END
+
 let g:quickrun_config.processing = {
 			\  'command': 'processing-java',
-			\  'exec': '%c --sketch=%s:p:h/ --output=%s:p:h/ --run --force'
+			\  'exec': '%c --sketch=%s:p:h/ --output=%s:p:h/tmp/ --run --force'
 			\}
 
 
@@ -253,6 +257,9 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 
+"---------------------------------------------
+"" ファイル・タイプ別の設定
+"---------------------------------------------
 " setting python django css
 autocmd FileType css,javascript setl autoindent
 autocmd FileTYpe css,javascript setl tabstop=2 expandtab shiftwidth=2 softtabstop=2
