@@ -171,6 +171,19 @@ let g:quickrun_config.processing = {
 			\}
 
 
+"---------------------------------------------
+"" VimFilerの設定
+"---------------------------------------------
+" デフォルトのファイラにvimfilerを使う
+let g:vimfiler_as_default_explorer = 1
+" キーマップ設定
+nnoremap [vimfiler] <Nop>
+nmap <Leader>f [vimfiler]
+" カレントディレクトリでファイラを開く
+nnoremap <silent> [vimfiler]c :VimFilerCurrentDir -tab<CR>
+
+
+
 filetype plugin indent on     " required!
 filetype indent on
 
@@ -297,12 +310,8 @@ function! s:bundle.hooks.on_source(bundle)
 endfunction
 unlet s:bundle
 
-" vimfiler
-" 現在開いているバッファをIDE風に開く
-nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -splite -simple -winwidth=35 -no-quit<CR>
-
 "-------------------------------------------------------------
-"" その他の設定 キーパッピングとか
+"" その他の設定
 "-------------------------------------------------------------
 " F9でvimrcを開く
 nnoremap <F9> :tabedit ~/.vimrc<CR>
@@ -310,7 +319,5 @@ nnoremap <F9> :tabedit ~/.vimrc<CR>
 nnoremap <F10> :source ~/.vimrc \| :source ~/.gvimrc<CR>
 " C-Lでハイライトを消す 
 nnoremap <C-L> :nohl<CR><C-L>
-" hellow
-nnoremap <C-H> :echo "Hellow World!"<CR>
 
 syntax on
