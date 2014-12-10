@@ -75,6 +75,12 @@ NeoBundleLazy "jmcantrell/vim-virtualenv", {
       \   "filetypes": ["python", "python3", "djangohtml"]
       \ }}
 
+" processing syntax
+NeoBundleLazy 'sophacles/vim-processing', {
+		\  "autoload": {
+		\    "filename_patterns": '.*\.pde'
+		\  }}
+
 " quickfix
 NeoBundle "osyo-manga/unite-quickfix"
 
@@ -128,6 +134,8 @@ let g:quickrun_config._ = {
 			\'runner': 'vimproc',
 			\  'runner/vimproc/updatetime': 100
 			\}
+
+" tex compile
 let g:quickrun_config.tex = {
 			\  'command': 'latexmk',
 			\  'outputter': 'error',
@@ -135,7 +143,6 @@ let g:quickrun_config.tex = {
 			\  'cmdopt': '-gg -pdfdvi',
 			\  'exec': ['%c %o %s']
 			\}
-
 augroup myLaTexQuickrun
 	au!
 	au BufEnter *.tex nnoremap <Leader>v :call <SID>TexPdfView() <CR>
@@ -150,6 +157,31 @@ function! s:TexPdfView()
 	endif
 	execute g:TexPdfViewCommand
 endfunction
+
+" run processing
+augroup Processing
+    autocmd!
+    autocmd BufNewFile *.pde :setl filetype=processing
+    autocmd BufReadPost *.pde :setl filetype=processing
+augroup END
+
+let g:quickrun_config.processing = {
+			\  'command': 'processing-java',
+			\  'exec': '%c --sketch=%s:p:h/ --output=%s:p:h/tmp/ --run --force'
+			\}
+
+
+"---------------------------------------------
+"" VimFilerの設定
+"---------------------------------------------
+" デフォルトのファイラにvimfilerを使う
+let g:vimfiler_as_default_explorer = 1
+" キーマップ設定
+nnoremap [vimfiler] <Nop>
+nmap <Leader>f [vimfiler]
+" カレントディレクトリでファイラを開く
+nnoremap <silent> [vimfiler]c :VimFilerCurrentDir -tab<CR>
+
 
 
 filetype plugin indent on     " required!
@@ -234,10 +266,14 @@ set incsearch
 set number
 set showmatch
 set wrap
+set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 
+"---------------------------------------------
+"" ファイル・タイプ別の設定
+"---------------------------------------------
 " setting python django css
 autocmd FileType css,javascript setl autoindent
 autocmd FileTYpe css,javascript setl tabstop=2 expandtab shiftwidth=2 softtabstop=2
@@ -248,7 +284,8 @@ autocmd FileType htmldjango setl autoindent
 autocmd FileType htmldjango setl shiftwidth=2 tabstop=2 softtabstop=2
 
 " setting c++
-autocmd FileType cpp setl tabstop=4 shiftwidth=4 softtabstop=4
+autocmd Filetype cpp setl autoindent
+autocmd FileType cpp setl expandtab tabstop=2 shiftwidth=2 softtabstop=2
 " F5でmake
 noremap <F5> :<C-u>make<CR>
 
@@ -273,12 +310,8 @@ function! s:bundle.hooks.on_source(bundle)
 endfunction
 unlet s:bundle
 
-" vimfiler
-" 現在開いているバッファをIDE風に開く
-nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -splite -simple -winwidth=35 -no-quit<CR>
-
 "-------------------------------------------------------------
-"" その他の設定 キーパッピングとか
+"" その他の設定
 "-------------------------------------------------------------
 " F9でvimrcを開く
 nnoremap <F9> :tabedit ~/.vimrc<CR>
@@ -286,7 +319,5 @@ nnoremap <F9> :tabedit ~/.vimrc<CR>
 nnoremap <F10> :source ~/.vimrc \| :source ~/.gvimrc<CR>
 " C-Lでハイライトを消す 
 nnoremap <C-L> :nohl<CR><C-L>
-" hellow
-nnoremap <C-H> :echo "Hellow World!"<CR>
 
 syntax on
