@@ -153,7 +153,7 @@ function! s:TexPdfView()
 		let texPdfFilename = fnamemodify(g:quickrun_config['tex']['srcfile'], ':.:r') . '.pdf'
 	endif
 	if has('unix')
-		let g:TexPdfViewCommand = '!'. 'zathura '. texPdfFilename
+		let g:TexPdfViewCommand = '!'. 'zathura '. texPdfFilename. ' &'
 	endif
 	execute g:TexPdfViewCommand
 endfunction
@@ -176,11 +176,15 @@ let g:quickrun_config.processing = {
 "---------------------------------------------
 " デフォルトのファイラにvimfilerを使う
 let g:vimfiler_as_default_explorer = 1
-" キーマップ設定
+" 編集ファイルをタブで開く
+let g:vimfiler_edit_action='tabopen'
+" prefix設定
 nnoremap [vimfiler] <Nop>
 nmap <Leader>f [vimfiler]
-" カレントディレクトリでファイラを開く
-nnoremap <silent> [vimfiler]c :VimFilerCurrentDir -tab<CR>
+" tabでファイラを開く
+nnoremap <silent> [vimfiler]t :VimFiler -tab -quit<CR>
+" 分割でファイラを開く
+nnoremap <silent> [vimfiler]s :VimFiler -split -no-quit<CR>
 
 
 
@@ -256,6 +260,9 @@ set background=dark
 " colorscheme solarized
 set t_Co=256
 
+"---------------------------------------------
+"" 基本設定
+"---------------------------------------------
 " backスペースでtabなどを削除できるようにする
 set backspace=indent,eol,start
 set history=50
@@ -270,6 +277,12 @@ set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
+" バックアップファイルの設定
+set backup
+set backupdir=~/vim_tmp/bak
+set swapfile
+set directory=~/vim_tmp/swp
+set noundofile
 
 "---------------------------------------------
 "" ファイル・タイプ別の設定
