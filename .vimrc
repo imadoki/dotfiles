@@ -3,9 +3,13 @@ filetype off
 
 
 if has('vim_starting')
+  if &compatible
+    set nocompatible
+  endif
   set runtimepath+=~/dotfiles/.vim/bundle/neobundle.vim
-  call neobundle#rc(expand('~/dotfiles/.vim/bundle/'))
 endif
+
+call neobundle#begin(expand('~/dotfiles/.vim/bundle/'))
 
 " manage vim plugin
 NeoBundleFetch 'Shougo/neobundle.vim'
@@ -186,6 +190,8 @@ let g:quickrun_config.processing = {
 let g:vimfiler_as_default_explorer = 1
 " 編集ファイルをタブで開く
 let g:vimfiler_edit_action='tabopen'
+" カレントディレクトリを編集ファイルのディレクトリまで移動する
+let g:vimfiler_enable_auto_cd = 1
 " prefix設定
 nnoremap [vimfiler] <Nop>
 nmap <Leader>f [vimfiler]
@@ -198,6 +204,8 @@ nnoremap <silent> [vimfiler]s :VimFiler -split -no-quit<CR>
 
 filetype plugin indent on     " required!
 filetype indent on
+
+NeoBundleCheck
 
 "--------------------------------------------------
 "" 文字コードの自動認識
