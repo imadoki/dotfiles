@@ -48,6 +48,10 @@ NeoBundle 'tomasr/molokai'
 " install solarized
 NeoBundle 'altercation/vim-colors-solarized'
 
+" syntax checker
+" istall syntastic
+NeoBundle "scrooloose/syntastic"
+
 " markdown plugins
 NeoBundle 'kannokanno/previm'
 NeoBundle 'tyru/open-browser.vim'
@@ -71,11 +75,11 @@ NeoBundleLazy 'vim-jp/cpp-vim', {
 	\}}
 
 " python settings
-NeoBundleLazy 'git://github.com/kevinw/pyflakes-vim.git', {
-	\ "autoload": {
-	\   "filetypes": ["python", "python3"]
-	\ }
-	\}
+" NeoBundleLazy 'git://github.com/kevinw/pyflakes-vim.git', {
+" 	\ "autoload": {
+" 	\   "filetypes": ["python", "python3"]
+" 	\ }
+" 	\}
 NeoBundleLazy "lambdalisue/vim-django-support", {
       \ "autoload": {
       \   "filetypes": ["python", "python3", "djangohtml"]
@@ -98,9 +102,9 @@ call neobundle#end()
 
 
 "-------------------------------------------------
-"" neocomplcacheİ’è
+"" neocomplcacheè¨­å®š
 "-------------------------------------------------
-""«‘ƒtƒ@ƒCƒ‹
+""è¾æ›¸ãƒ•ã‚¡ã‚¤ãƒ«
 autocmd BufRead *.php\|*.ctp\|*.tpl :set dictionary=~/.vim/dictionaries/php.dict filetype=php
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_camel_case_completion = 1
@@ -112,13 +116,13 @@ let g:neocomplcache_caching_percent_in_statusline = 1
 let g:neocomplcache_enable_skip_completion = 1
 let g:neocomplcache_skip_input_time = '0.5'
 "" keybind
-" tab‚Å‰º‚Ö
+" tabã§ä¸‹ã¸
 inoremap <expr><TAB> pumvisible() ? "\<Down>": "\<TAB>"
-" shift+tab‚Åã‚Ö
+" shift+tabã§ä¸Šã¸
 inoremap <expr><S-TAB> pumvisible() ? "\<Up>": "\<S-TAB>"
 
 "---------------------------------------------------
-"" neosnippetİ’è
+"" neosnippetè¨­å®š
 "---------------------------------------------------
 let g:neosnippet#snippets_directory='~/dotfiles/.vim/bundle/vim-snippets/snippets, ~/dotfiles/.vim/snippets'
 "" keybind
@@ -129,16 +133,16 @@ smap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)": "
 
 
 "---------------------------------------------------
-"" cap.vim İ’è
+"" cap.vim è¨­å®š
 "---------------------------------------------------
 " '\c' is comentout and coment
 nmap <Leader>c <Plug>(caw:i:toggle)
 vmap <Leader>c <Plug>(caw:i:toggle)
 
 "---------------------------------------------
-"" quickrun‚Ìİ’è
+"" quickrunã®è¨­å®š
 "---------------------------------------------
-" QuickRun‚Ìİ’èƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
+" QuickRunã®è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
 let g:quickrun_config = {}
 let g:quickrun_config._ = {
 			\'runner': 'vimproc',
@@ -162,7 +166,7 @@ function! s:TexPdfView()
 	if exists("g:quickrun_config['tex']['srcfile']")
 		let texPdfFilename = fnamemodify(g:quickrun_config['tex']['srcfile'], ':.:r') . '.pdf'
 	endif
-	if has('unix')
+    if has('unix')
         let g:TexPdfViewCommand = 'zathura '.shellescape(texPdfFilename).'&'
         " run zathura background
         call system(g:TexPdfViewCommand)
@@ -182,22 +186,33 @@ let g:quickrun_config.processing = {
 			\  'exec': '%c --sketch=%s:p:h/ --output=%s:p:h/tmp/ --run --force'
 			\}
 
+"---------------------------------------------
+"" syntasticã®è¨­å®š
+"---------------------------------------------
+let g:syntastic_mode_map = { 'mode': 'active',
+    \ 'active_filetypes': ['python'],
+    \ 'passive_filetypes': ['tex']
+    \}
+let g:syntastic_python_checkers = ["flake8"]
+
 
 "---------------------------------------------
-"" VimFiler‚Ìİ’è
+"" VimFilerã®è¨­å®š
 "---------------------------------------------
-" ƒfƒtƒHƒ‹ƒg‚Ìƒtƒ@ƒCƒ‰‚Évimfiler‚ğg‚¤
+" ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ©ã«vimfilerã‚’ä½¿ã†
 let g:vimfiler_as_default_explorer = 1
-" •ÒWƒtƒ@ƒCƒ‹‚ğƒ^ƒu‚ÅŠJ‚­
+" ç·¨é›†ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚¿ãƒ–ã§é–‹ã
 let g:vimfiler_edit_action='tabopen'
-" ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğ•ÒWƒtƒ@ƒCƒ‹‚ÌƒfƒBƒŒƒNƒgƒŠ‚Ü‚ÅˆÚ“®‚·‚é
+" ã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ç·¨é›†ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¾ã§ç§»å‹•ã™ã‚‹
 let g:vimfiler_enable_auto_cd = 1
-" prefixİ’è
+" prefixè¨­å®š
 nnoremap [vimfiler] <Nop>
 nmap <Leader>f [vimfiler]
-" tab‚Åƒtƒ@ƒCƒ‰‚ğŠJ‚­
+" ãã®å ´ã§ãƒ•ã‚¡ã‚¤ãƒ©ã‚’é–‹ã
+nnoremap <silent> [vimfiler]f :VimFiler -quit<CR>
+" tabã§ãƒ•ã‚¡ã‚¤ãƒ©ã‚’é–‹ã
 nnoremap <silent> [vimfiler]t :VimFiler -tab -quit<CR>
-" •ªŠ„‚Åƒtƒ@ƒCƒ‰‚ğŠJ‚­
+" åˆ†å‰²ã§ãƒ•ã‚¡ã‚¤ãƒ©ã‚’é–‹ã
 nnoremap <silent> [vimfiler]s :VimFiler -split -no-quit<CR>
 
 
@@ -208,7 +223,7 @@ filetype indent on
 NeoBundleCheck
 
 "--------------------------------------------------
-"" •¶šƒR[ƒh‚Ì©“®”F¯
+"" æ–‡å­—ã‚³ãƒ¼ãƒ‰ã®è‡ªå‹•èªè­˜
 "--------------------------------------------------
 if &encoding !=# 'utf-8'
   set encoding=japan
@@ -217,16 +232,16 @@ endif
 if has('iconv')
   let s:enc_euc = 'euc-jp'
   let s:enc_jis = 'iso-2022-jp'
-  " iconv‚ªeucJP-ms‚É‘Î‰‚µ‚Ä‚¢‚é‚©‚ğƒ`ƒFƒbƒN
+  " iconvãŒeucJP-msã«å¯¾å¿œã—ã¦ã„ã‚‹ã‹ã‚’ãƒã‚§ãƒƒã‚¯
   if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
     let s:enc_euc = 'eucjp-ms'
     let s:enc_jis = 'iso-2022-jp-3'
-  " iconv‚ªJISX0213‚É‘Î‰‚µ‚Ä‚¢‚é‚©‚ğƒ`ƒFƒbƒN
+  " iconvãŒJISX0213ã«å¯¾å¿œã—ã¦ã„ã‚‹ã‹ã‚’ãƒã‚§ãƒƒã‚¯
   elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
     let s:enc_euc = 'euc-jisx0213'
     let s:enc_jis = 'iso-2022-jp-3'
   endif
-  " fileencodings‚ğ\’z
+  " fileencodingsã‚’æ§‹ç¯‰
   if &encoding ==# 'utf-8'
     let s:fileencodings_default = &fileencodings
     let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
@@ -246,11 +261,11 @@ if has('iconv')
       let &fileencodings = &fileencodings .','. s:enc_euc
     endif
   endif
-  " ’è”‚ğˆ•ª
+  " å®šæ•°ã‚’å‡¦åˆ†
   unlet s:enc_euc
   unlet s:enc_jis
 endif
-" “ú–{Œê‚ğŠÜ‚Ü‚È‚¢ê‡‚Í fileencoding ‚É encoding ‚ğg‚¤‚æ‚¤‚É‚·‚é
+" æ—¥æœ¬èªã‚’å«ã¾ãªã„å ´åˆã¯ fileencoding ã« encoding ã‚’ä½¿ã†ã‚ˆã†ã«ã™ã‚‹
 if has('autocmd')
   function! AU_ReCheck_FENC()
     if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7e]", 'n') == 0
@@ -259,15 +274,15 @@ if has('autocmd')
   endfunction
   autocmd BufReadPost * call AU_ReCheck_FENC()
 endif
-" ‰üsƒR[ƒh‚Ì©“®”F¯
+" æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã®è‡ªå‹•èªè­˜
 set fileformats=unix,dos,mac
-"  ‚Æ‚©›‚Ì•¶š‚ª‚ ‚Á‚Ä‚àƒJ[ƒ\ƒ‹ˆÊ’u‚ª‚¸‚ê‚È‚¢‚æ‚¤‚É‚·‚é
+" â–¡ã¨ã‹â—‹ã®æ–‡å­—ãŒã‚ã£ã¦ã‚‚ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ãŒãšã‚Œãªã„ã‚ˆã†ã«ã™ã‚‹
 if exists('&ambiwidth')
   set ambiwidth=double
 endif
 
 "---------------------------------------------
-"" ƒJƒ‰[ƒXƒL[ƒ}‚Ìİ’è
+"" ã‚«ãƒ©ãƒ¼ã‚¹ã‚­ãƒ¼ãƒã®è¨­å®š
 "---------------------------------------------
 " set colorscheme
 colorscheme molokai
@@ -277,9 +292,9 @@ set background=dark
 set t_Co=256
 
 "---------------------------------------------
-"" Šî–{İ’è
+"" åŸºæœ¬è¨­å®š
 "---------------------------------------------
-" backƒXƒy[ƒX‚Åtab‚È‚Ç‚ğíœ‚Å‚«‚é‚æ‚¤‚É‚·‚é
+" backã‚¹ãƒšãƒ¼ã‚¹ã§tabãªã©ã‚’å‰Šé™¤ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 set backspace=indent,eol,start
 set history=50
 set ignorecase
@@ -293,7 +308,7 @@ set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
-" ƒoƒbƒNƒAƒbƒvƒtƒ@ƒCƒ‹‚Ìİ’è
+" ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã®è¨­å®š
 set backup
 set backupdir=~/vim_tmp/bak
 set swapfile
@@ -301,7 +316,7 @@ set directory=~/vim_tmp/swp
 set noundofile
 
 "---------------------------------------------
-"" ƒtƒ@ƒCƒ‹Eƒ^ƒCƒv•Ê‚Ìİ’è
+"" ãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ã‚¿ã‚¤ãƒ—åˆ¥ã®è¨­å®š
 "---------------------------------------------
 " setting python django css
 autocmd FileType css,javascript setl autoindent
@@ -315,7 +330,7 @@ autocmd FileType htmldjango setl shiftwidth=2 tabstop=2 softtabstop=2
 " setting c++
 autocmd FileType cpp setl autoindent
 autocmd FileType cpp setl expandtab tabstop=2 shiftwidth=2 softtabstop=2
-" F5‚Åmake
+" F5ã§make
 noremap <F5> :<C-u>make<CR>
 
 " markdown setting
@@ -326,31 +341,31 @@ augroup markdownView
 augroup END
 
 set tags+=tags
-" Šg’£q‚Å“Ç‚İ‚İƒ^ƒO‚ğ•ÏX
+" æ‹¡å¼µå­ã§èª­ã¿è¾¼ã¿ã‚¿ã‚°ã‚’å¤‰æ›´
 " Python
 au BufNewFile,BufRead *.py set tags+=$HOME/tags/Python.tags 
 
 " vim-tags
 au BufNewFile,BufRead *.py let g:vim_tags_project_tags_command = "ctags --languages=Python -f ~/tags/Python.tags `pwd` 2>/dev/null"
-" tagsƒWƒƒƒ“ƒv‚Ì‚É•¡”‚ ‚é‚Íˆê——•\¦
+" tagsã‚¸ãƒ£ãƒ³ãƒ—ã®æ™‚ã«è¤‡æ•°ã‚ã‚‹æ™‚ã¯ä¸€è¦§è¡¨ç¤º
 nnoremap <C-]> g<C-]> 
 nmap <Leader>t :TagbarToggle<CR>
 
 " auto-ctags.vim
 let s:bundle = neobundle#get("auto-ctags.vim")
 function! s:bundle.hooks.on_source(bundle)
-	let g:auto_ctags = 1	" ƒtƒ@ƒCƒ‹•Û‘¶‚Étags‚ğXV
+	let g:auto_ctags = 1	" ãƒ•ã‚¡ã‚¤ãƒ«ä¿å­˜æ™‚ã«tagsã‚’æ›´æ–°
 endfunction
 unlet s:bundle
 
 "-------------------------------------------------------------
-"" ‚»‚Ì‘¼‚Ìİ’è
+"" ãã®ä»–ã®è¨­å®š
 "-------------------------------------------------------------
-" F9‚Åvimrc‚ğŠJ‚­
+" F9ã§vimrcã‚’é–‹ã
 nnoremap <F9> :tabedit ~/.vimrc<CR>
-" F10‚Åvimrc, gvimrc‚ğ“Ç‚İ‚Ş
+" F10ã§vimrc, gvimrcã‚’èª­ã¿è¾¼ã‚€
 nnoremap <F10> :source ~/.vimrc \| :source ~/.gvimrc<CR>
-" C-L‚ÅƒnƒCƒ‰ƒCƒg‚ğÁ‚· 
+" C-Lã§ãƒã‚¤ãƒ©ã‚¤ãƒˆã‚’æ¶ˆã™ 
 nnoremap <C-L> :nohl<CR><C-L>
 
 syntax on
