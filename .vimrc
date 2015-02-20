@@ -23,6 +23,7 @@ NeoBundle 'Shougo/vimproc', { 'build': {
 
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neossh.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/vimshell'
