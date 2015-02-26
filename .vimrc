@@ -171,6 +171,10 @@ function! s:TexPdfView()
         let g:TexPdfViewCommand = 'zathura '.shellescape(texPdfFilename).'&'
         " run zathura background
         call system(g:TexPdfViewCommand)
+    if has('win64')
+        let l:sumatraPDF = '"C:\Program Files (x86)\SumatraPDF\SumatraPDF.exe" '
+        let g:TexPdfViewCommand = l:sumatraPDF. shellescape(texPdfFilename).'&'
+        call system(g:TexPdfViewCommand)
 	endif
 	" execute g:TexPdfViewCommand
 endfunction
@@ -190,12 +194,15 @@ let g:quickrun_config.processing = {
 "---------------------------------------------
 "" syntasticの設定
 "---------------------------------------------
+" Python
 let g:syntastic_mode_map = { 'mode': 'active',
     \ 'active_filetypes': ['python'],
     \ 'passive_filetypes': ['tex']
     \}
 let g:syntastic_python_checkers = ["flake8"]
 
+" C++
+let g:syntastic_cpp_compiler_options = "-std=c++11 -stdlib=libc++"
 
 "---------------------------------------------
 "" VimFilerの設定
