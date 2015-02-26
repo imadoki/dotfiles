@@ -173,9 +173,10 @@ function! s:TexPdfView()
         call system(g:TexPdfViewCommand)
     endif
     if has('win64')
+        let l:targetPdfFilePath = expand('%:p:r'). '.pdf'
         let l:sumatraPDF = '"C:\Program Files (x86)\SumatraPDF\SumatraPDF.exe" '
-        let g:TexPdfViewCommand = l:sumatraPDF. shellescape(texPdfFilename).'&'
-        call system(g:TexPdfViewCommand)
+        let g:TexPdfViewCommand = l:sumatraPDF. l:targetPdfFilePath
+        execute '!start ' g:TexPdfViewCommand
 	endif
 	" execute g:TexPdfViewCommand
 endfunction
