@@ -171,6 +171,7 @@ function! s:TexPdfView()
         let g:TexPdfViewCommand = 'zathura '.shellescape(texPdfFilename).'&'
         " run zathura background
         call system(g:TexPdfViewCommand)
+    endif
     if has('win64')
         let l:sumatraPDF = '"C:\Program Files (x86)\SumatraPDF\SumatraPDF.exe" '
         let g:TexPdfViewCommand = l:sumatraPDF. shellescape(texPdfFilename).'&'
