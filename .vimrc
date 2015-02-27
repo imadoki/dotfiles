@@ -328,6 +328,10 @@ set noundofile
 "---------------------------------------------
 "" ファイル・タイプ別の設定
 "---------------------------------------------
+" setting text
+" デフォルトvimrc_exampleのtextwidth設定を上書き
+autocmd FileType text setlocal textwidth=0
+
 " setting python django css
 autocmd FileType css,javascript setl autoindent
 autocmd FileTYpe css,javascript setl tabstop=2 expandtab shiftwidth=2 softtabstop=2
@@ -371,6 +375,8 @@ unlet s:bundle
 "-------------------------------------------------------------
 "" その他の設定
 "-------------------------------------------------------------
+" F8でgvimrcを開く
+nnoremap <F8> :tabedit ~/.gvimrc<CR>
 " F9でvimrcを開く
 nnoremap <F9> :tabedit ~/.vimrc<CR>
 " F10でvimrc, gvimrcを読み込む

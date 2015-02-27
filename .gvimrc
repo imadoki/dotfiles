@@ -1,32 +1,30 @@
-" ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚º
+" ƒEƒBƒ“ƒhƒEƒTƒCƒY
 set columns=180
 set lines=50
 
-" ã‚¿ãƒ–ã‚’è¡¨ç¤ºã™ã‚‹
+" ƒ^ƒu‚ğ•\¦‚·‚é
 set showtabline=2
 
-" ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³è¡Œæ•°
+" ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“s”
 set cmdheight=1
 
-" ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã®è¨­å®š
+" ƒoƒbƒNƒAƒbƒvƒtƒ@ƒCƒ‹‚Ìİ’è
 set backup
 set backupdir=~/vim_tmp/bak
 set swapfile
 set directory=~/vim_tmp/swp
 set noundofile
 
-" ã‚«ãƒ©ãƒ¼ã‚¹ã‚­ãƒ¼ãƒ 
+" ƒJƒ‰[ƒXƒL[ƒ€
 colorscheme molokai
 let g:molokai_original=1
 let g:rehash256=1
 set background=dark
 
-" ãƒ“ãƒ¼ãƒ—éŸ³ã‚’æ¶ˆã™
+" ƒr[ƒv‰¹‚ğÁ‚·
 set visualbell t_vb=
-
-" .gvimrc
-set transparency=10
 
 if has('mac')
 	set guifont=Ricty:h16
+    set transparency=10
 endif
