@@ -318,6 +318,8 @@ set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
+" *レジスタにもヤングする
+set clipboard+=unnamed
 " バックアップファイルの設定
 set backup
 set backupdir=~/vim_tmp/bak
