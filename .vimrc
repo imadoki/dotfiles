@@ -1,7 +1,19 @@
 set nocompatible               " be iMproved
 filetype off
 
+"-------------------------------------------------
+"" MacVim用にライブラリパスを設定
+"-------------------------------------------------
+if has('gui_macvim')
+    let $PYTHON_DLL="/Users/owner/.pyenv/versions/2.7.9/lib/libpython2.7.dylib"
+    let $PYTHON3_DLL="/Users/owner/.pyenv/versions/3.4.3/lib/libpython3.4m.dylib"
+    let $LUA_DLL="/usr/local/Cellar/lua/5.2.3_2/lib/liblua.dylib"
+endif
 
+
+"-------------------------------------------------
+"" neobundleを設定
+"-------------------------------------------------
 if has('vim_starting')
   if &compatible
     set nocompatible
