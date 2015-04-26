@@ -4,10 +4,26 @@ filetype off
 "-------------------------------------------------
 "" MacVim用にライブラリパスを設定
 "-------------------------------------------------
+" python3用のパスをセットする
+function! s:set_py3_path()
+    let s:python3_path = system('/Users/owner/.pyenv/shims/python3 -', 'import sys; sys.stdout.write(",".join(sys.path))')
+
+    python3 <<EOM
+import sys
+import vim
+
+python3_paths = vim.eval('s:python3_path').split(',')
+for path in python3_paths:
+    if not path in sys.path:
+        sys.path.insert(0, path)
+EOM
+endfunction
+
 if has('gui_macvim')
     let $PYTHON_DLL="/Users/owner/.pyenv/versions/2.7.9/lib/libpython2.7.dylib"
     let $PYTHON3_DLL="/Users/owner/.pyenv/versions/3.4.3/lib/libpython3.4m.dylib"
     let $LUA_DLL="/usr/local/Cellar/lua/5.2.3_2/lib/liblua.dylib"
+    call s:set_py3_path()
 endif
 
 
@@ -33,7 +49,7 @@ NeoBundle 'Shougo/vimproc', { 'build': {
 	\	 },
 	\}
 
-NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neocomplete'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neossh.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
@@ -93,14 +109,14 @@ NeoBundleLazy 'vim-jp/cpp-vim', {
 " 	\   "filetypes": ["python", "python3"]
 " 	\ }
 " 	\}
-NeoBundleLazy "lambdalisue/vim-django-support", {
-      \ "autoload": {
-      \   "filetypes": ["python", "python3", "djangohtml"]
-      \ }}
-NeoBundleLazy "jmcantrell/vim-virtualenv", {
-      \ "autoload": {
-      \   "filetypes": ["python", "python3", "djangohtml"]
-      \ }}
+" NeoBundleLazy "lambdalisue/vim-django-support", {
+"       \ "autoload": {
+"       \   "filetypes": ["python", "python3", "djangohtml"]
+"       \ }}
+" NeoBundleLazy "jmcantrell/vim-virtualenv", {
+"       \ "autoload": {
+"       \   "filetypes": ["python", "python3", "djangohtml"]
+"       \ }}
 
 " processing syntax
 NeoBundleLazy 'sophacles/vim-processing', {
@@ -120,15 +136,15 @@ map <Leader> \
 "-------------------------------------------------
 ""辞書ファイル
 autocmd BufRead *.php\|*.ctp\|*.tpl :set dictionary=~/.vim/dictionaries/php.dict filetype=php
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_smart_case = 1
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_manual_completion_start_length = 0
-let g:neocomplcache_caching_percent_in_statusline = 1
-let g:neocomplcache_enable_skip_completion = 1
-let g:neocomplcache_skip_input_time = '0.5'
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#manual_completion_start_length = 0
+" pythonのオムニ補完でクラッシュするため,無効化
+if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.python = ''
 "" keybind
 " tabで下へ
 inoremap <expr><TAB> pumvisible() ? "\<Down>": "\<TAB>"
