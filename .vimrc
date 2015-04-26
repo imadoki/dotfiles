@@ -113,7 +113,7 @@ NeoBundle "osyo-manga/unite-quickfix"
 
 call neobundle#end()
 
-let mapleader='¥'
+map <Leader> \
 
 "-------------------------------------------------
 "" neocomplcache設定
