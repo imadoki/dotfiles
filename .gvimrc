@@ -25,6 +25,6 @@ set background=dark
 set visualbell t_vb=
 
 if has('mac')
-	set guifont=Ricty:h16
+	set guifont=Ricty\ Regular\ for\ Powerline:h16
     set transparency=10
 endif

@@ -23,7 +23,7 @@ if has('gui_macvim')
     let $PYTHON_DLL="/Users/owner/.pyenv/versions/2.7.9/lib/libpython2.7.dylib"
     let $PYTHON3_DLL="/Users/owner/.pyenv/versions/3.4.3/lib/libpython3.4m.dylib"
     let $LUA_DLL="/usr/local/Cellar/lua/5.2.3_2/lib/liblua.dylib"
-    call s:set_py3_path()
+    " call s:set_py3_path()
 endif
 
 
@@ -74,8 +74,10 @@ NeoBundle 'tyru/caw.vim'
 
 " install colorscheme
 NeoBundle 'tomasr/molokai'
-" install solarized
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'alpaca-tc/alpaca_powertabline'
+NeoBundle 'Lokaltog/powerline'
+NeoBundle 'Lokaltog/powerline-fontpatcher'
 
 " syntax checker
 " istall syntastic
@@ -329,6 +331,11 @@ let g:molokai_original=1
 set background=dark
 " colorscheme solarized
 set t_Co=256
+
+set laststatus=2
+set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+let g:Powerline_symbols='fancy'
+set noshowmode
 
 "---------------------------------------------
 "" 基本設定
