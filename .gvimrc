@@ -28,3 +28,6 @@ if has('mac')
 	set guifont=Ricty\ Regular\ for\ Powerline:h16
     set transparency=10
 endif
+if has('win64')
+	set guifont=Inconsolata:h16:cSHIFTJIS,MeiryoKe_Console:h16:cSHIFTJIS
+endif
