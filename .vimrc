@@ -264,6 +264,8 @@ if has('mac')
 let g:vimshell_prompt_expr =
 		\ 'escape(iconv(fnamemodify(getcwd(), ":~").">", "utf-8-mac", "char"), "\\[]()?! ")." "'
 else
+let g:vimshell_prompt_expr =
+		\ 'escape(fnamemodify(getcwd(), ":~").">", "\\[]()?! ")." "'
 endif
 let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
 
