@@ -9,3 +9,4 @@ rem シンボリックリンク
 mklink /d %HOME%\.vim %dotfiles%\.vim
 mklink %HOME%\.gvimrc %dotfiles%\.gvimrc
 mklink %HOME%\.vimrc %dotfiles%\.vimrc
+mklink %HOME%\.vimshrc %dotfiles%\.vimshrc

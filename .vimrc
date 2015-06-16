@@ -20,8 +20,9 @@ EOM
 endfunction
 
 if has('gui_macvim')
-    let $PYTHON_DLL="/Users/owner/.pyenv/versions/2.7.9/lib/libpython2.7.dylib"
-    let $PYTHON3_DLL="/Users/owner/.pyenv/versions/3.4.3/lib/libpython3.4m.dylib"
+    " let $PYTHON_DLL="/Users/owner/.pyenv/versions/2.7.9/lib/libpython2.7.dylib"
+    " let $PYTHON3_DLL="/Users/owner/.pyenv/versions/3.4.3/lib/libpython3.4m.dylib"
+    let $PYTHON3_DLL="/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/Python"
     let $LUA_DLL="/usr/local/Cellar/lua/5.2.3_2/lib/liblua.dylib"
     " call s:set_py3_path()
 endif
@@ -44,10 +45,10 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'Shougo/vimproc', { 'build': {
 	\	  'cygwin': 'make -f make_cygwin.mak',
-	\	  'mac': 'make -f make_mac.mak',
-	\	  'unix': 'make -f make_unix.mak',
-	\	 },
-	\}
+ 	\	  'mac': 'make -f make_mac.mak',
+ 	\	  'unix': 'make -f make_unix.mak',
+ 	\	 },
+ 	\}
 
 NeoBundle 'Shougo/neocomplete'
 NeoBundle 'Shougo/unite.vim'
@@ -75,9 +76,6 @@ NeoBundle 'tyru/caw.vim'
 " install colorscheme
 NeoBundle 'tomasr/molokai'
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'alpaca-tc/alpaca_powertabline'
-NeoBundle 'Lokaltog/powerline'
-NeoBundle 'Lokaltog/powerline-fontpatcher'
 
 " syntax checker
 " istall syntastic
@@ -95,15 +93,15 @@ NeoBundleLazy 'plasticboy/vim-markdown', {
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'szw/vim-tags'
 NeoBundleLazy 'soramugi/auto-ctags.vim', {
-		\ "autoload": {
-		\ "filetypes": ["cpp", "py"]
-		\}}
+ 		\ "autoload": {
+ 		\ "filetypes": ["cpp", "py"]
+ 		\}}
 
 "c++ plugins
 NeoBundleLazy 'vim-jp/cpp-vim', {
 	\ "autoload": {
-	\	'filetypes': ['cc', 'cpp']
-	\}}
+ 	\	'filetypes': ['cc', 'cpp']
+ 	\}}
 
 " python settings
 " NeoBundleLazy 'git://github.com/kevinw/pyflakes-vim.git', {
@@ -131,7 +129,7 @@ NeoBundle "osyo-manga/unite-quickfix"
 
 call neobundle#end()
 
-map <Leader> \
+map ¥ <Leader>
 
 "-------------------------------------------------
 "" neocomplcache設定
@@ -200,6 +198,7 @@ function! s:TexPdfView()
 	endif
     if has('unix')
         let g:TexPdfViewCommand = 'zathura '.shellescape(texPdfFilename).'&'
+        echomsg g:TexPdfViewCommand
         " run zathura background
         call system(g:TexPdfViewCommand)
     endif
@@ -227,18 +226,17 @@ let g:quickrun_config.processing = {
 "---------------------------------------------
 "" syntasticの設定
 "---------------------------------------------
-" Python
 let g:syntastic_mode_map = { 'mode': 'active',
     \ 'active_filetypes': ['python'],
     \ 'passive_filetypes': ['tex']
     \}
 let g:syntastic_python_checkers = ["flake8"]
-
+"
 " C++
 let g:syntastic_cpp_compiler_options = "-std=c++11 -stdlib=libc++"
 
 "---------------------------------------------
-"" VimFilerの設定
+"" VimFiler
 "---------------------------------------------
 " デフォルトのファイラにvimfilerを使う
 let g:vimfiler_as_default_explorer = 1
@@ -256,8 +254,30 @@ nnoremap <silent> [vimfiler]t :VimFiler -tab -quit<CR>
 " 分割でファイラを開く
 nnoremap <silent> [vimfiler]s :VimFiler -split -no-quit<CR>
 
+"---------------------------------------------
+"" VimShell
+"---------------------------------------------
+" prompt
+" let g:vimshell_prompt_expr = 'getcwd()." >"'
+" let g:vimshell_prompt_pattern = '^\f\+ >'
+if has('mac')
+let g:vimshell_prompt_expr =
+		\ 'escape(iconv(fnamemodify(getcwd(), ":~").">", "utf-8-mac", "char"), "\\[]()?! ")." "'
+else
+endif
+let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
+
+" prefix設定
+nnoremap [vimshell] <Nop>
+nmap <Leader>s [vimshell]
+nnoremap <silent> [vimshell]t :VimShellTab<CR>
+"文字コード設定
+let g:vimshell_interactive_encodings = {
+            \'/': 'utf-8-mac',
+            \}
 
 
+"---------------------------------------------
 filetype plugin indent on     " required!
 filetype indent on
 
@@ -332,9 +352,18 @@ set background=dark
 " colorscheme solarized
 set t_Co=256
 
+""" powerlineをオンにするとpython3インターフェースを利用した際にクラッシュする
+" set laststatus=2
+" set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+" let g:Powerline_symbols='fancy'
+" set noshowmode
+
+" powerline by pip
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
 set laststatus=2
-set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-let g:Powerline_symbols='fancy'
+set showtabline=2
 set noshowmode
 
 "---------------------------------------------
