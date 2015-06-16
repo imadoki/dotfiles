@@ -1,0 +1,5 @@
+alias reload='vimsh ~/.vimshrc'
+alias rl=reload
+alias ll='ls -l'
+alias gvim='mvim --remote-tab-silent $$args'
+alias e=gvim
