@@ -84,10 +84,9 @@ NeoBundle "scrooloose/syntastic"
 " markdown plugins
 NeoBundle 'kannokanno/previm'
 NeoBundle 'tyru/open-browser.vim'
-NeoBundleLazy 'plasticboy/vim-markdown', {
-    \ "autoload": {
-    \   "filetype": ["markdown"]
-    \ }}
+NeoBundle "godlygeek/tabular"
+NeoBundle "joker1007/vim-markdown-quote-syntax"
+NeoBundle "rcmdnk/vim-markdown"
 
 " ctags
 NeoBundle 'majutsushi/tagbar'
@@ -222,6 +221,14 @@ let g:quickrun_config.processing = {
 			\  'command': 'processing-java',
 			\  'exec': '%c --sketch=%s:p:h/ --output=%s:p:h/tmp/ --run --force'
 			\}
+
+" run pandoc
+let s:pandoc_listings_settings = '~/dotfiles/listings-setup.tex'
+let g:quickrun_config.markdown = {
+            \'outputter': 'null',
+            \'command': 'pandoc',
+            \'exec': '%c -f markdown_github+fenced_code_attributes %s --latex-engine=lualatex --listings -H ' . s:pandoc_listings_settings . ' -o ' . expand('%:p:r'). '.pdf'
+            \}
 
 "---------------------------------------------
 "" syntasticの設定
@@ -415,6 +422,9 @@ autocmd FileType cpp setl expandtab tabstop=2 shiftwidth=2 softtabstop=2
 noremap <F5> :<C-u>make<CR>
 
 " markdown setting
+let g:vim_markdown_liquid=1
+let g:vim_markdown_frontmatter=1
+let g:vim_markdown_math=1
 autocmd BufRead,BufNewFile *.md set filetype=markdown
 augroup markdownView
 	au!
