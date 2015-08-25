@@ -128,7 +128,7 @@ NeoBundle "osyo-manga/unite-quickfix"
 
 call neobundle#end()
 
-map ¥ <Leader>
+map \ <Leader>
 
 "-------------------------------------------------
 "" neocomplcache設定
@@ -360,12 +360,6 @@ let g:molokai_original=1
 set background=dark
 " colorscheme solarized
 set t_Co=256
-
-""" powerlineをオンにするとpython3インターフェースを利用した際にクラッシュする
-" set laststatus=2
-" set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-" let g:Powerline_symbols='fancy'
-" set noshowmode
 
 " powerline by pip
 python from powerline.vim import setup as powerline_setup
