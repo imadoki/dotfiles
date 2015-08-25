@@ -29,5 +29,5 @@ if has('mac')
     set transparency=10
 endif
 if has('win64')
-	set guifont=Inconsolata:h16:cSHIFTJIS,MeiryoKe_Console:h16:cSHIFTJIS
+	set guifont=Inconsolata:h12:cSHIFTJIS,MeiryoKe_Console:h12:cSHIFTJIS
 endif
