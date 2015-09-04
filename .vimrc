@@ -1,32 +1,31 @@
 set nocompatible               " be iMproved
 filetype off
 
-"-------------------------------------------------
-"" MacVim用にライブラリパスを設定
-"-------------------------------------------------
-" python3用のパスをセットする
-function! s:set_py3_path()
-    let s:python3_path = system('/Users/owner/.pyenv/shims/python3 -', 'import sys; sys.stdout.write(",".join(sys.path))')
 
-    python3 <<EOM
-import sys
-import vim
-
-python3_paths = vim.eval('s:python3_path').split(',')
-for path in python3_paths:
-    if not path in sys.path:
-        sys.path.insert(0, path)
-EOM
-endfunction
-
+" MacVim用にpythonのライブラリ指定
 if has('gui_macvim')
-    " let $PYTHON_DLL="/Users/owner/.pyenv/versions/2.7.9/lib/libpython2.7.dylib"
-    " let $PYTHON3_DLL="/Users/owner/.pyenv/versions/3.4.3/lib/libpython3.4m.dylib"
-    let $PYTHON3_DLL="/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/Python"
-    let $LUA_DLL="/usr/local/Cellar/lua/5.2.3_2/lib/liblua.dylib"
-    " call s:set_py3_path()
+  let $PYTHON_DLL="/Users/owner/.pyenv/versions/2.7.9/lib/libpython2.7.dylib"
+  " let $PYTHON3_DLL="/Users/owner/.pyenv/versions/3.4.3/lib/libpython3.4m.dylib"
 endif
 
+" PATHの自動更新関数
+" | 指定された path が $PATH に存在せず、ディレクトリとして存在している場合
+" | のみ $PATH に加える
+function! IncludePath(path)
+  " define delimiter depends on platform
+  if has('win16') || has('win32') || has('win64')
+    let delimiter = ";"
+  else
+    let delimiter = ":"
+  endif
+  let pathlist = split($PATH, delimiter)
+  if isdirectory(a:path) && index(pathlist, a:path) == -1
+    let $PATH=a:path.delimiter.$PATH
+  endif
+endfunction
+
+" pyenvでインストールしたpythonをパスに加える
+call IncludePath(expand("~/.pyenv/shims"))
 
 "-------------------------------------------------
 "" neobundleを設定
@@ -103,19 +102,16 @@ NeoBundleLazy 'vim-jp/cpp-vim', {
  	\}}
 
 " python settings
-" NeoBundleLazy 'git://github.com/kevinw/pyflakes-vim.git', {
-" 	\ "autoload": {
-" 	\   "filetypes": ["python", "python3"]
-" 	\ }
-" 	\}
-" NeoBundleLazy "lambdalisue/vim-django-support", {
-"       \ "autoload": {
-"       \   "filetypes": ["python", "python3", "djangohtml"]
-"       \ }}
-" NeoBundleLazy "jmcantrell/vim-virtualenv", {
-"       \ "autoload": {
-"       \   "filetypes": ["python", "python3", "djangohtml"]
-"       \ }}
+" DJANGO_SETTINGS_MODULE を自動設定
+NeoBundleLazy "lambdalisue/vim-django-support", {
+      \ "autoload": {
+      \   "filetypes": ["python", "python3", "djangohtml"]
+      \ }}
+
+" python補完用. vim-pyenvのために常にロード
+NeoBundle "davidhalter/jedi-vim"
+" pyenv処理用.
+NeoBundle "lambdalisue/vim-pyenv", {"depends": ['davidhalter/jedi-vim']}
 
 " processing syntax
 NeoBundleLazy 'sophacles/vim-processing', {
@@ -125,6 +121,9 @@ NeoBundleLazy 'sophacles/vim-processing', {
 
 " quickfix
 NeoBundle "osyo-manga/unite-quickfix"
+
+" evervim
+NeoBundle 'kakkyz81/evervim'
 
 call neobundle#end()
 
@@ -284,9 +283,19 @@ nnoremap <silent> [vimshell]t :VimShellTab<CR>
 let g:vimshell_interactive_encodings = {
             \'/': 'utf-8-mac',
             \}
-
+"---------------------------------------------
+"" EverVim
+"---------------------------------------------
+" 接続に使用するトークンを指定
+let g:evervim_devtoken="S=s311:U=293e861:E=156ebb5b8dd:C=14f94048b90:P=1cd:A=en-devtoken:V=2:H=7533ed5a4a95cbfc1e375d9b13a785e9"
+" マッピング
+nnoremap [evervim] <Nop>
+nmap <Leader>e [evervim]
+nnoremap <silent> [evervim]l :EvervimNotebookList<CR>
+nnoremap <silent> [evervim]c :EvervimCreateNote<CR>
 
 "---------------------------------------------
+
 filetype plugin indent on     " required!
 filetype indent on
 
