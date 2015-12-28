@@ -8,13 +8,6 @@ set showtabline=2
 " コマンドライン行数
 set cmdheight=1
 
-" バックアップファイルの設定
-set backup
-set backupdir=~/vim_tmp/bak
-set swapfile
-set directory=~/vim_tmp/swp
-set noundofile
-
 " カラースキーム
 colorscheme molokai
 let g:molokai_original=1

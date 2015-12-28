@@ -222,12 +222,22 @@ let g:quickrun_config.processing = {
 			\}
 
 " run pandoc
-let s:pandoc_listings_settings = '~/dotfiles/listings-setup.tex'
-let g:quickrun_config.markdown = {
-            \'outputter': 'null',
-            \'command': 'pandoc',
-            \'exec': '%c -f markdown_github+fenced_code_attributes %s --latex-engine=lualatex --listings -H ' . s:pandoc_listings_settings . ' -o ' . expand('%:p:r'). '.pdf'
-            \}
+if executable('pandoc')
+    let s:pandoc_css_path = expand('~/dotfiles/pandoc/css/github.css')
+    let g:quickrun_config.markdown = {
+                \ 'command': 'pandoc',
+                \ 'srcfile': expand('%'),
+                \ 'hook/time': '1',
+                \ 'outputter': 'browser',
+                \ 'outputter/browser/name': expand('%:p:r') . '.html',
+                \ 'outputter/error/success': 'buffer',
+                \ 'outputter/error/error': 'buffer',
+                \ 'cmdopt': '-s --self-contained -c "' . s:pandoc_css_path . '" -t html5 -f markdown_github+hard_line_breaks',
+                \ 'exec': [
+                \   '%c %s %o -o %S:t:r.html',
+                \ ],
+                \ }
+endif
 
 "---------------------------------------------
 "" syntasticの設定
@@ -399,9 +409,9 @@ set softtabstop=4
 set clipboard+=unnamed
 " バックアップファイルの設定
 set backup
-set backupdir=~/vim_tmp/bak
+set backupdir=~/.vim/tmp/bak
 set swapfile
-set directory=~/vim_tmp/swp
+set directory=~/.vim/tmp/swp
 set noundofile
 
 "---------------------------------------------

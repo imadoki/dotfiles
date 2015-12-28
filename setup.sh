@@ -7,5 +7,5 @@ ln -s ~/dotfiles/.vim ~/.vim
 ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/.latexmkrc ~/.latexmkrc
 # make directory
-mkdir -p ~/vim_tmp/bak
-mkdir -p ~/vim_tmp/swp
+mkdir -p ~/.vim/tmp/bak
+mkdir -p ~/.vim/tmp/swp
