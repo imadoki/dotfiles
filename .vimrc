@@ -55,6 +55,7 @@ NeoBundle 'Shougo/neossh.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/vimshell'
+NeoBundle 'kana/vim-smartinput'
 
 " snippet plugins
 NeoBundle 'Shougo/neosnippet'
