@@ -89,11 +89,15 @@ NeoBundle "rcmdnk/vim-markdown"
 
 " ctags
 NeoBundle 'majutsushi/tagbar'
-NeoBundle 'szw/vim-tags'
-NeoBundleLazy 'soramugi/auto-ctags.vim', {
- 		\ "autoload": {
- 		\ "filetypes": ["cpp", "py"]
- 		\}}
+NeoBundleLazy 'alpaca-tc/alpaca_tags', {
+            \ "depends": ["Shougo/vimproc"],
+            \ 'autoload': {
+            \   'commands': [
+            \     { 'name': 'AlpacaTagsBundle', 'complete': 'customlist,alpaca_tags#complete_source' },
+            \     { 'name': 'AlpacaTagsUpdate', 'complete': 'customlist,alpaca_tags#complete_source' },
+            \     'AlpacaTagsSet', 'AlpacaTagsCleanCache', 'AlpacaTagsEnable', 'AlpacaTagsDisable', 'AlpacaTagsKillProcess', 'AlpacaTagsProcessStatus',
+            \ ],
+            \}}
 
 "c++ plugins
 NeoBundleLazy 'vim-jp/cpp-vim', {
@@ -130,7 +134,7 @@ call neobundle#end()
 map \ <Leader>
 
 "-------------------------------------------------
-"" neocomplcache設定
+"" neocomplete設定
 "-------------------------------------------------
 ""辞書ファイル
 autocmd BufRead *.php\|*.ctp\|*.tpl :set dictionary=~/.vim/dictionaries/php.dict filetype=php
@@ -173,8 +177,8 @@ vmap <Leader>c <Plug>(caw:i:toggle)
 " QuickRunの設定オブジェクトを作成する
 let g:quickrun_config = {}
 let g:quickrun_config._ = {
-			\'runner': 'vimproc',
-			\  'runner/vimproc/updatetime': 100
+            \'runner': 'vimproc',
+            \'runner/vimproc/updatetime': 60,
 			\}
 
 " tex compile
@@ -239,6 +243,17 @@ if executable('pandoc')
                 \ }
 endif
 
+" python
+let g:quickrun_config.python = {
+            \ 'command': 'python',
+            \ 'exec': '%c %s',
+            \'outputter': 'error',
+            \'outputter/error/success': 'buffer',
+            \'outputter/error/error': 'quickfix',
+            \'outputter/buffer/split': ':rightbelow 8sp',
+            \'outputter/buffer/close_on_empty': 1,
+            \}
+
 "---------------------------------------------
 "" syntasticの設定
 "---------------------------------------------
@@ -293,6 +308,16 @@ nnoremap <silent> [vimshell]t :VimShellTab<CR>
 let g:vimshell_interactive_encodings = {
             \'/': 'utf-8-mac',
             \}
+
+"---------------------------------------------
+"" jedi-vim
+"---------------------------------------------
+" 補完時、最初の項目を選択しないようにする
+let g:jedi#popup_select_first = 0
+" quickrunとキーバインドが被るためリネームキーバインドを大文字に変更
+let g:jedi#rename_command = '<Leader>R'
+
+
 "---------------------------------------------
 "" EverVim
 "---------------------------------------------
@@ -446,23 +471,24 @@ augroup markdownView
 	au FileType markdown nnoremap <silent> <Leader>v :PrevimOpen <CR>
 augroup END
 
-set tags+=tags
-" 拡張子で読み込みタグを変更
-" Python
-au BufNewFile,BufRead *.py set tags+=$HOME/tags/Python.tags 
-
-" vim-tags
-au BufNewFile,BufRead *.py let g:vim_tags_project_tags_command = "ctags --languages=Python -f ~/tags/Python.tags `pwd` 2>/dev/null"
-" tagsジャンプの時に複数ある時は一覧表示
 nnoremap <C-]> g<C-]> 
 nmap <Leader>t :TagbarToggle<CR>
 
-" auto-ctags.vim
-let s:bundle = neobundle#get("auto-ctags.vim")
+" alpaca_tags
+let s:bundle = neobundle#get("alpaca_tags")
 function! s:bundle.hooks.on_source(bundle)
-	let g:auto_ctags = 1	" ファイル保存時にtagsを更新
+    let g:alpaca_tags#config = {
+                \   "_": "-R --sort=yes --languages=+Python,Vim,C,C++,Lua",
+                \}
 endfunction
 unlet s:bundle
+augroup AlpacaTags
+    autocmd!
+    if exists(":AlpacaTags")
+        autocmd BufEnter * AlpacaTagsSet
+        autocmd BufWritePost * AlpacaTagsUpdate
+    endif
+augroup END
 
 "-------------------------------------------------------------
 "" その他の設定
