@@ -1,32 +1,31 @@
 set nocompatible               " be iMproved
 filetype off
 
-"-------------------------------------------------
-"" MacVim用にライブラリパスを設定
-"-------------------------------------------------
-" python3用のパスをセットする
-function! s:set_py3_path()
-    let s:python3_path = system('/Users/owner/.pyenv/shims/python3 -', 'import sys; sys.stdout.write(",".join(sys.path))')
 
-    python3 <<EOM
-import sys
-import vim
-
-python3_paths = vim.eval('s:python3_path').split(',')
-for path in python3_paths:
-    if not path in sys.path:
-        sys.path.insert(0, path)
-EOM
-endfunction
-
+" MacVim用にpythonのライブラリ指定
 if has('gui_macvim')
-    " let $PYTHON_DLL="/Users/owner/.pyenv/versions/2.7.9/lib/libpython2.7.dylib"
-    " let $PYTHON3_DLL="/Users/owner/.pyenv/versions/3.4.3/lib/libpython3.4m.dylib"
-    let $PYTHON3_DLL="/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/Python"
-    let $LUA_DLL="/usr/local/Cellar/lua/5.2.3_2/lib/liblua.dylib"
-    " call s:set_py3_path()
+  let $PYTHON_DLL="/Users/owner/.pyenv/versions/2.7.9/lib/libpython2.7.dylib"
+  " let $PYTHON3_DLL="/Users/owner/.pyenv/versions/3.4.3/lib/libpython3.4m.dylib"
 endif
 
+" PATHの自動更新関数
+" | 指定された path が $PATH に存在せず、ディレクトリとして存在している場合
+" | のみ $PATH に加える
+function! IncludePath(path)
+  " define delimiter depends on platform
+  if has('win16') || has('win32') || has('win64')
+    let delimiter = ";"
+  else
+    let delimiter = ":"
+  endif
+  let pathlist = split($PATH, delimiter)
+  if isdirectory(a:path) && index(pathlist, a:path) == -1
+    let $PATH=a:path.delimiter.$PATH
+  endif
+endfunction
+
+" pyenvでインストールしたpythonをパスに加える
+call IncludePath(expand("~/.pyenv/shims"))
 
 "-------------------------------------------------
 "" neobundleを設定
@@ -56,6 +55,7 @@ NeoBundle 'Shougo/neossh.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/vimshell'
+NeoBundle 'kana/vim-smartinput'
 
 " snippet plugins
 NeoBundle 'Shougo/neosnippet'
@@ -90,11 +90,15 @@ NeoBundle "rcmdnk/vim-markdown"
 
 " ctags
 NeoBundle 'majutsushi/tagbar'
-NeoBundle 'szw/vim-tags'
-NeoBundleLazy 'soramugi/auto-ctags.vim', {
- 		\ "autoload": {
- 		\ "filetypes": ["cpp", "py"]
- 		\}}
+NeoBundleLazy 'alpaca-tc/alpaca_tags', {
+            \ "depends": ["Shougo/vimproc"],
+            \ 'autoload': {
+            \   'commands': [
+            \     { 'name': 'AlpacaTagsBundle', 'complete': 'customlist,alpaca_tags#complete_source' },
+            \     { 'name': 'AlpacaTagsUpdate', 'complete': 'customlist,alpaca_tags#complete_source' },
+            \     'AlpacaTagsSet', 'AlpacaTagsCleanCache', 'AlpacaTagsEnable', 'AlpacaTagsDisable', 'AlpacaTagsKillProcess', 'AlpacaTagsProcessStatus',
+            \ ],
+            \}}
 
 "c++ plugins
 NeoBundleLazy 'vim-jp/cpp-vim', {
@@ -103,19 +107,16 @@ NeoBundleLazy 'vim-jp/cpp-vim', {
  	\}}
 
 " python settings
-" NeoBundleLazy 'git://github.com/kevinw/pyflakes-vim.git', {
-" 	\ "autoload": {
-" 	\   "filetypes": ["python", "python3"]
-" 	\ }
-" 	\}
-" NeoBundleLazy "lambdalisue/vim-django-support", {
-"       \ "autoload": {
-"       \   "filetypes": ["python", "python3", "djangohtml"]
-"       \ }}
-" NeoBundleLazy "jmcantrell/vim-virtualenv", {
-"       \ "autoload": {
-"       \   "filetypes": ["python", "python3", "djangohtml"]
-"       \ }}
+" DJANGO_SETTINGS_MODULE を自動設定
+NeoBundleLazy "lambdalisue/vim-django-support", {
+      \ "autoload": {
+      \   "filetypes": ["python", "python3", "djangohtml"]
+      \ }}
+
+" python補完用. vim-pyenvのために常にロード
+NeoBundle "davidhalter/jedi-vim"
+" pyenv処理用.
+NeoBundle "lambdalisue/vim-pyenv", {"depends": ['davidhalter/jedi-vim']}
 
 " processing syntax
 NeoBundleLazy 'sophacles/vim-processing', {
@@ -126,12 +127,15 @@ NeoBundleLazy 'sophacles/vim-processing', {
 " quickfix
 NeoBundle "osyo-manga/unite-quickfix"
 
+" evervim
+NeoBundle 'kakkyz81/evervim'
+
 call neobundle#end()
 
 map \ <Leader>
 
 "-------------------------------------------------
-"" neocomplcache設定
+"" neocomplete設定
 "-------------------------------------------------
 ""辞書ファイル
 autocmd BufRead *.php\|*.ctp\|*.tpl :set dictionary=~/.vim/dictionaries/php.dict filetype=php
@@ -174,8 +178,8 @@ vmap <Leader>c <Plug>(caw:i:toggle)
 " QuickRunの設定オブジェクトを作成する
 let g:quickrun_config = {}
 let g:quickrun_config._ = {
-			\'runner': 'vimproc',
-			\  'runner/vimproc/updatetime': 100
+            \'runner': 'vimproc',
+            \'runner/vimproc/updatetime': 60,
 			\}
 
 " tex compile
@@ -223,11 +227,32 @@ let g:quickrun_config.processing = {
 			\}
 
 " run pandoc
-let s:pandoc_listings_settings = '~/dotfiles/listings-setup.tex'
-let g:quickrun_config.markdown = {
-            \'outputter': 'null',
-            \'command': 'pandoc',
-            \'exec': '%c -f markdown_github+fenced_code_attributes %s --latex-engine=lualatex --listings -H ' . s:pandoc_listings_settings . ' -o ' . expand('%:p:r'). '.pdf'
+if executable('pandoc')
+    let s:pandoc_css_path = expand('~/dotfiles/pandoc/css/github.css')
+    let g:quickrun_config.markdown = {
+                \ 'command': 'pandoc',
+                \ 'srcfile': expand('%'),
+                \ 'hook/time': '1',
+                \ 'outputter': 'browser',
+                \ 'outputter/browser/name': expand('%:p:r') . '.html',
+                \ 'outputter/error/success': 'buffer',
+                \ 'outputter/error/error': 'buffer',
+                \ 'cmdopt': '-s --self-contained -c "' . s:pandoc_css_path . '" -t html5 -f markdown_github+hard_line_breaks',
+                \ 'exec': [
+                \   '%c %s %o -o %S:t:r.html',
+                \ ],
+                \ }
+endif
+
+" python
+let g:quickrun_config.python = {
+            \ 'command': 'python',
+            \ 'exec': '%c %s',
+            \'outputter': 'error',
+            \'outputter/error/success': 'buffer',
+            \'outputter/error/error': 'quickfix',
+            \'outputter/buffer/split': ':rightbelow 8sp',
+            \'outputter/buffer/close_on_empty': 1,
             \}
 
 "---------------------------------------------
@@ -285,8 +310,28 @@ let g:vimshell_interactive_encodings = {
             \'/': 'utf-8-mac',
             \}
 
+"---------------------------------------------
+"" jedi-vim
+"---------------------------------------------
+" 補完時、最初の項目を選択しないようにする
+let g:jedi#popup_select_first = 0
+" quickrunとキーバインドが被るためリネームキーバインドを大文字に変更
+let g:jedi#rename_command = '<Leader>R'
+
 
 "---------------------------------------------
+"" EverVim
+"---------------------------------------------
+" 接続に使用するトークンを指定
+let g:evervim_devtoken="S=s311:U=293e861:E=156ebb5b8dd:C=14f94048b90:P=1cd:A=en-devtoken:V=2:H=7533ed5a4a95cbfc1e375d9b13a785e9"
+" マッピング
+nnoremap [evervim] <Nop>
+nmap <Leader>e [evervim]
+nnoremap <silent> [evervim]l :EvervimNotebookList<CR>
+nnoremap <silent> [evervim]c :EvervimCreateNote<CR>
+
+"---------------------------------------------
+
 filetype plugin indent on     " required!
 filetype indent on
 
@@ -390,9 +435,9 @@ set softtabstop=4
 set clipboard+=unnamed
 " バックアップファイルの設定
 set backup
-set backupdir=~/vim_tmp/bak
+set backupdir=~/.vim/tmp/bak
 set swapfile
-set directory=~/vim_tmp/swp
+set directory=~/.vim/tmp/swp
 set noundofile
 
 "---------------------------------------------
@@ -427,23 +472,24 @@ augroup markdownView
 	au FileType markdown nnoremap <silent> <Leader>v :PrevimOpen <CR>
 augroup END
 
-set tags+=tags
-" 拡張子で読み込みタグを変更
-" Python
-au BufNewFile,BufRead *.py set tags+=$HOME/tags/Python.tags 
-
-" vim-tags
-au BufNewFile,BufRead *.py let g:vim_tags_project_tags_command = "ctags --languages=Python -f ~/tags/Python.tags `pwd` 2>/dev/null"
-" tagsジャンプの時に複数ある時は一覧表示
 nnoremap <C-]> g<C-]> 
 nmap <Leader>t :TagbarToggle<CR>
 
-" auto-ctags.vim
-let s:bundle = neobundle#get("auto-ctags.vim")
+" alpaca_tags
+let s:bundle = neobundle#get("alpaca_tags")
 function! s:bundle.hooks.on_source(bundle)
-	let g:auto_ctags = 1	" ファイル保存時にtagsを更新
+    let g:alpaca_tags#config = {
+                \   "_": "-R --sort=yes --languages=+Python,Vim,C,C++,Lua",
+                \}
 endfunction
 unlet s:bundle
+augroup AlpacaTags
+    autocmd!
+    if exists(":AlpacaTags")
+        autocmd BufEnter * AlpacaTagsSet
+        autocmd BufWritePost * AlpacaTagsUpdate
+    endif
+augroup END
 
 "-------------------------------------------------------------
 "" その他の設定

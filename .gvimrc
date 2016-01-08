@@ -8,13 +8,6 @@ set showtabline=2
 " コマンドライン行数
 set cmdheight=1
 
-" バックアップファイルの設定
-set backup
-set backupdir=~/vim_tmp/bak
-set swapfile
-set directory=~/vim_tmp/swp
-set noundofile
-
 " カラースキーム
 colorscheme molokai
 let g:molokai_original=1
@@ -25,10 +18,9 @@ set background=dark
 set visualbell t_vb=
 
 if has('mac')
-	set guifont=Ricty\ Regular\ for\ Powerline:h16
-    set transparency=10
+	set guifont=Ricty_Regular_for_Powerline:h16
+  set transparency=10
 endif
 if has('win64')
-	" set guifont=Inconsolata:h12:cSHIFTJIS,MeiryoKe_Console:h12:cSHIFTJIS
 	set guifont=Inconsolata_for_Powerline:h12:cSHIFTJIS,MeiryoKe_Console:h12:cSHIFTJIS
 endif
