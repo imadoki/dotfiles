@@ -480,7 +480,7 @@ nmap <Leader>t :TagbarToggle<CR>
 let s:bundle = neobundle#get("alpaca_tags")
 function! s:bundle.hooks.on_source(bundle)
     let g:alpaca_tags#config = {
-                \   "_": "-R --sort=yes --languages=+Python,Vim,C,C++,Lua",
+                \   "_": "-R --sort=yes --languages=+Python,Vim,C,C++,Lua,latex",
                 \}
 endfunction
 unlet s:bundle
@@ -493,6 +493,8 @@ augroup AlpacaTags
     if has('win32') || has('win64')
         " ctags path is 'kaoriya_vim_root/ctags/ctags.exe'
         let g:alpaca_tags#ctags_bin = "C:/vim/ctags/ctags.exe"
+        let g:alpaca_tags#cache_dir = $HOME . "/.alpaca_tags/"
+        let g:alpaca_tags#cache_dir = substitute(g:alpaca_tags#cache_dir, "\\", "/", "g")
     endif
 augroup END
 
