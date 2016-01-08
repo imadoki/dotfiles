@@ -6,26 +6,26 @@ filetype off
 if has('gui_macvim')
   let $PYTHON_DLL="/Users/owner/.pyenv/versions/2.7.9/lib/libpython2.7.dylib"
   " let $PYTHON3_DLL="/Users/owner/.pyenv/versions/3.4.3/lib/libpython3.4m.dylib"
+
+  " PATHの自動更新関数
+  " | 指定された path が $PATH に存在せず、ディレクトリとして存在している場合
+  " | のみ $PATH に加える
+  function! s:IncludePath(path)
+    " define delimiter depends on platform
+    if has('win16') || has('win32') || has('win64')
+      let delimiter = ";"
+    else
+      let delimiter = ":"
+    endif
+    let pathlist = split($PATH, delimiter)
+    if isdirectory(a:path) && index(pathlist, a:path) == -1
+      let $PATH=a:path.delimiter.$PATH
+    endif
+  endfunction
+  " pyenvでインストールしたpythonをパスに加える
+  call s:IncludePath(expand("~/.pyenv/shims"))
 endif
 
-" PATHの自動更新関数
-" | 指定された path が $PATH に存在せず、ディレクトリとして存在している場合
-" | のみ $PATH に加える
-function! IncludePath(path)
-  " define delimiter depends on platform
-  if has('win16') || has('win32') || has('win64')
-    let delimiter = ";"
-  else
-    let delimiter = ":"
-  endif
-  let pathlist = split($PATH, delimiter)
-  if isdirectory(a:path) && index(pathlist, a:path) == -1
-    let $PATH=a:path.delimiter.$PATH
-  endif
-endfunction
-
-" pyenvでインストールしたpythonをパスに加える
-call IncludePath(expand("~/.pyenv/shims"))
 
 "-------------------------------------------------
 "" neobundleを設定
@@ -112,11 +112,12 @@ NeoBundleLazy "lambdalisue/vim-django-support", {
       \ "autoload": {
       \   "filetypes": ["python", "python3", "djangohtml"]
       \ }}
-
-" python補完用. vim-pyenvのために常にロード
-NeoBundle "davidhalter/jedi-vim"
-" pyenv処理用.
-NeoBundle "lambdalisue/vim-pyenv", {"depends": ['davidhalter/jedi-vim']}
+if has('gui_macvim')
+  " python補完用. vim-pyenvのために常にロード
+  NeoBundle "davidhalter/jedi-vim"
+  " pyenv処理用.
+  NeoBundle "lambdalisue/vim-pyenv", {"depends": ['davidhalter/jedi-vim']}
+endif
 
 " processing syntax
 NeoBundleLazy 'sophacles/vim-processing', {
@@ -488,6 +489,10 @@ augroup AlpacaTags
     if exists(":AlpacaTags")
         autocmd BufEnter * AlpacaTagsSet
         autocmd BufWritePost * AlpacaTagsUpdate
+    endif
+    if has('win32') || has('win64')
+        " ctags path is 'kaoriya_vim_root/ctags/ctags.exe'
+        let g:alpaca_tags#ctags_bin = "C:/vim/ctags/ctags.exe"
     endif
 augroup END
 
