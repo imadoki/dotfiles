@@ -1,27 +1,27 @@
-" ƒEƒBƒ“ƒhƒEƒTƒCƒY
+" ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚º
 set columns=180
 set lines=50
 
-" ƒ^ƒu‚ğ•\¦‚·‚é
+" ã‚¿ãƒ–ã‚’è¡¨ç¤ºã™ã‚‹
 set showtabline=2
 
-" ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“s”
+" ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³è¡Œæ•°
 set cmdheight=1
 
-" ƒoƒbƒNƒAƒbƒvƒtƒ@ƒCƒ‹‚Ìİ’è
+" ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã®è¨­å®š
 set backup
 set backupdir=~/vim_tmp/bak
 set swapfile
 set directory=~/vim_tmp/swp
 set noundofile
 
-" ƒJƒ‰[ƒXƒL[ƒ€
+" ã‚«ãƒ©ãƒ¼ã‚¹ã‚­ãƒ¼ãƒ 
 colorscheme molokai
 let g:molokai_original=1
 let g:rehash256=1
 set background=dark
 
-" ƒr[ƒv‰¹‚ğÁ‚·
+" ãƒ“ãƒ¼ãƒ—éŸ³ã‚’æ¶ˆã™
 set visualbell t_vb=
 
 if has('mac')
@@ -29,5 +29,6 @@ if has('mac')
     set transparency=10
 endif
 if has('win64')
-	set guifont=Inconsolata:h12:cSHIFTJIS,MeiryoKe_Console:h12:cSHIFTJIS
+	" set guifont=Inconsolata:h12:cSHIFTJIS,MeiryoKe_Console:h12:cSHIFTJIS
+	set guifont=Inconsolata_for_Powerline:h12:cSHIFTJIS,MeiryoKe_Console:h12:cSHIFTJIS
 endif
