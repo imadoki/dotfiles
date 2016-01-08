@@ -165,6 +165,14 @@ smap <C-k> <Plug>(neosnippet_expand_or_jump)
 imap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)": pumvisible() ? "\<C-n>": "\<TAB>"
 smap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)": "\<TAB>"
 
+"---------------------------------------------------
+"" unite-outline設定
+"---------------------------------------------------
+NeoBundle 'Shougo/unite-outline'
+nnoremap [unite-outline] <Nop>
+nmap <Leader>o [unite-outline]
+nnoremap <silent> [unite-outline]s :Unite -winheight=15 -no-quit outline<CR>
+
 
 "---------------------------------------------------
 "" cap.vim 設定
@@ -480,7 +488,7 @@ nmap <Leader>t :TagbarToggle<CR>
 let s:bundle = neobundle#get("alpaca_tags")
 function! s:bundle.hooks.on_source(bundle)
     let g:alpaca_tags#config = {
-                \   "_": "-R --sort=yes --languages=+Python,Vim,C,C++,Lua,latex",
+                \   "_": "-R --sort=yes --languages=+Python,Vim,C,C++,Lua",
                 \}
 endfunction
 unlet s:bundle
