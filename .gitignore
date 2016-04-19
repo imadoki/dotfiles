@@ -1,3 +1,4 @@
 .vim/
 nvim/tmp/
 nvim/dein/
+.init.vim-rplugin~
