@@ -4,7 +4,7 @@ filetype off
 
 " MacVim用にpythonのライブラリ指定
 if has('gui_macvim')
-  let $PYTHON_DLL="/Users/owner/.pyenv/versions/2.7.9/lib/libpython2.7.dylib"
+  let $PYTHON_DLL=expand('$PYENV_ROOT')."/versions/2.7.11/lib/libpython2.7.dylib"
   " let $PYTHON3_DLL="/Users/owner/.pyenv/versions/3.4.3/lib/libpython3.4m.dylib"
 
   " PATHの自動更新関数
@@ -23,7 +23,7 @@ if has('gui_macvim')
     endif
   endfunction
   " pyenvでインストールしたpythonをパスに加える
-  call s:IncludePath(expand("~/.pyenv/shims"))
+  call s:IncludePath(expand("$PYENV_ROOT/shims"))
 endif
 
 
@@ -130,6 +130,8 @@ NeoBundle "osyo-manga/unite-quickfix"
 
 " evervim
 NeoBundle 'kakkyz81/evervim'
+
+NeoBundle 'Glench/Vim-Jinja2-Syntax'
 
 call neobundle#end()
 
@@ -456,7 +458,7 @@ set noundofile
 " デフォルトvimrc_exampleのtextwidth設定を上書き
 autocmd FileType text setlocal textwidth=0
 
-" setting python django css
+" setting python django css jinja2
 autocmd FileType css,javascript setl autoindent
 autocmd FileTYpe css,javascript setl tabstop=2 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType python setl autoindent

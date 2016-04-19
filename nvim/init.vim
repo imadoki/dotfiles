@@ -1,0 +1,76 @@
+"python3 support
+let g:python3_host_prog = expand('$PYENV_ROOT') . '/shims/python3'
+
+if &compatible
+  set nocompatible               " Be iMproved
+endif
+
+" reset augroup
+augroup myvimrc
+  autocmd!
+augroup END
+
+" dein settings {{{
+" deinが導入されていない場合自動で導入する
+let s:cache_home = empty($XDG_CACHE_HOME) ? expand('~/.cache') : $XDG_CACHE_HOME
+let s:dein_dir = s:cache_home . '/dein'
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+if !isdirectory(s:dein_repo_dir)
+  call system('git clone https://github.com/Shougo/dein.vim ' . shellescape(s:dein_repo_dir))
+endif
+let &runtimepath = s:dein_repo_dir .",". &runtimepath
+" Check cache
+let s:dein_path = expand('~/.config/nvim/dein')
+" プラグイン読み込み＆キャッシュ作成
+let s:toml_file = fnamemodify(expand('<sfile>'), ':h').'/dein.toml'
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir, [$MYVIMRC, s:toml_file])
+  call dein#load_toml(s:toml_file)
+  call dein#end()
+  call dein#save_state()
+endif
+" 不足プラグインの自動インストール
+if has('vim_starting') && dein#check_install()
+  call dein#install()
+endif
+
+filetype plugin indent on
+
+" }}}
+
+
+" deoplete settings {{{
+let g:deoplete#enable_at_startup = 1
+" tabで下へ
+inoremap <expr><TAB> pumvisible() ? "\<Down>": "\<TAB>"
+" shift+tabで上へ
+inoremap <expr><S-TAB> pumvisible() ? "\<Up>": "\<S-TAB>"
+" }}}
+
+"---------------------------------------------
+"" 基本設定
+"---------------------------------------------
+" backスペースでtabなどを削除できるようにする
+set backspace=indent,eol,start
+set history=50
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+set number
+set showmatch
+set wrap
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+" *レジスタにもヤングする
+set clipboard+=unnamed
+" バックアップファイルの設定
+set backup
+set backupdir=~/.config/nvim/tmp/bak
+set swapfile
+set directory=~/.config/nvim/tmp/swp
+set noundofile
+
+syntax on
