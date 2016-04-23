@@ -5,7 +5,7 @@ repo = 'Shougo/dein.vim'
 repo = 'Shougo/vimproc.vim'
 build = 'make'
 
-[[plugin]]
+[[plugins]]
 repo = 'Shougo/deoplete.nvim'
 
 [[plugins]]
@@ -19,21 +19,19 @@ repo = 'Shougo/unite.vim'
 repo = 'ujihisa/unite-colorscheme'
 
 [[plugins]]
-repo = 'tomasr/molokai'
-hook_add = '''
-  colorscheme molokai
-  let g:molokai_original=1
-  set background=dark
-'''
+repo = 'slim-template/vim-slim'
 
-[[plugin]]
+[[plugins]]
 repo = 'osyo-manga/vim-monster'
 
-[[plugin]]
+[[plugins]]
 repo = 'kannokanno/previm'
 
-[[plugin]]
+[[plugins]]
 repo = 'tyru/open-browser.vim'
 
-[[plugin]]
-repo = 'slim-template/vim-slim'
+[[plugins]]
+repo = 'tomasr/molokai'
+
+[[plugins]]
+repo = 'itchyny/lightline.vim' 

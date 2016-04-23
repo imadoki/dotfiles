@@ -1,6 +1,3 @@
-" vimscript用の設定 Shougoさんのものを丸パクリ
-
-" おまじない
 " 'compatible'オプションによる不具合を回避するため，cpoをs:save_に待避し，
 " cpoをvimデフォルトに切り替える
 let s:save_cpo = &cpo

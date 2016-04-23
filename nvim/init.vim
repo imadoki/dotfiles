@@ -22,7 +22,6 @@ if !isdirectory(s:dein_repo_dir)
 endif
 let &runtimepath = s:dein_repo_dir .",". &runtimepath
 " Check cache
-let s:dein_path = expand('~/.config/nvim/dein')
 " プラグイン読み込み＆キャッシュ作成
 let s:toml_file = fnamemodify(expand('<sfile>'), ':h').'/dein.toml'
 if dein#load_state(s:dein_dir)
@@ -35,11 +34,7 @@ endif
 if has('vim_starting') && dein#check_install()
   call dein#install()
 endif
-
-filetype plugin indent on
-
 " }}}
-
 
 " deoplete settings {{{
 let g:deoplete#enable_at_startup = 1
@@ -50,9 +45,29 @@ let g:monster#completion#rcodetools#backend = "async_rct_complete"
 let g:deoplete#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 " }}}
 
-"---------------------------------------------
-"" 基本設定
-"---------------------------------------------
+syntax on
+colorscheme molokai
+let g:molokai_original=1
+set background=dark
+set laststatus=2
+let g:lightline = {
+      \ 'colorscheme': 'jellybeans',
+      \ 'component': {
+      \   'readonly': '%{&readonly?"⭤":""}',
+      \ },
+      \ 'separator': { 'left': '⮀', 'right': '⮂' },
+      \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+      \ }
+
+autocmd myvimrc FileType markdown nnoremap <silent> <Leader>v :PrevimOpen <CR>
+
+" F9でvimrcを開き，F10でvimrcを読み込む
+nnoremap <F9> :tabedit $MYVIMRC<CR>
+nnoremap <F10> :source $MYVIMRC<CR>
+
+" C-Lでハイライトを消す 
+nnoremap <C-L> :nohl<CR><C-L>
+
 set backspace=indent,eol,start
 set history=50
 set ignorecase
@@ -66,7 +81,7 @@ set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
-" *レジスタにもヤングする
+" *レジスタにもヤンクする
 set clipboard+=unnamed
 " バックアップファイルの設定
 set backup
@@ -75,16 +90,4 @@ set swapfile
 set directory=~/.config/nvim/tmp/swp
 set noundofile
 
-autocmd myvimrc BufRead,BufNewFile *.md set filetype=markdown
-autocmd myvimrc FileType markdown nnoremap <silent> <Leader>v :PrevimOpen <CR>
-autocmd myvimrc BufRead,BufNewFile *.slim set filetype=slim
-autocmd myvimrc BufNewFile,BufRead *.rb setlocal tabstop=2 shiftwidth=2
-
-" F9でvimrcを開き，F10でvimrcを読み込む
-nnoremap <F9> :tabedit $MYVIMRC<CR>
-nnoremap <F10> :source $MYVIMRC<CR>
-
-" C-Lでハイライトを消す 
-nnoremap <C-L> :nohl<CR><C-L>
-
-syntax on
+filetype plugin indent on
