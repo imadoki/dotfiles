@@ -9,27 +9,58 @@ build = 'make'
 repo = 'Shougo/deoplete.nvim'
 
 [[plugins]]
+repo = 'tyru/caw.vim'
+
+[[plugins]]
+repo = 'Shougo/neosnippet.vim'
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+repo = "scrooloose/syntastic"
+hook_add = '''
+  let g:syntastic_mode_map = { 'mode': 'active',
+    \ 'active_filetypes': ['python']
+    \}
+  let g:syntastic_python_checkers = ["flake8"]
+'''
+
+[[plugins]]
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
 
+
+# unite plugins
 [[plugins]]
 repo = 'Shougo/unite.vim'
 
 [[plugins]]
 repo = 'ujihisa/unite-colorscheme'
 
-[[plugins]]
-repo = 'slim-template/vim-slim'
 
+# python plugins
+[[plugins]]
+repo = 'zchee/deoplete-jedi'
+
+
+# ruby plugins
 [[plugins]]
 repo = 'osyo-manga/vim-monster'
 
+[[plugins]]
+repo = 'slim-template/vim-slim'
+
+
+# markdown plugins
 [[plugins]]
 repo = 'kannokanno/previm'
 
 [[plugins]]
 repo = 'tyru/open-browser.vim'
 
+
+# theme plugins
 [[plugins]]
 repo = 'tomasr/molokai'
 

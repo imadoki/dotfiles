@@ -1,7 +1,8 @@
 scriptencoding utf-8
 
 "python3 support
-let g:python3_host_prog = expand('$PYENV_ROOT') . '/shims/python3'
+let g:python_host_prog = '/usr/local/var/pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog = '/usr/local/var/pyenv/versions/neovim3/bin/python'
 
 if &compatible
   set nocompatible               " Be iMproved
@@ -45,6 +46,21 @@ let g:monster#completion#rcodetools#backend = "async_rct_complete"
 let g:deoplete#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 " }}}
 
+" neosnippet settings {{{
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
+
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+      \ "\<Plug>(neosnippet_expand_or_jump)"
+      \: "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+" }}}
+
 syntax on
 colorscheme molokai
 let g:molokai_original=1
@@ -67,6 +83,11 @@ nnoremap <F10> :source $MYVIMRC<CR>
 
 " C-Lでハイライトを消す 
 nnoremap <C-L> :nohl<CR><C-L>
+
+" caw.vim settings {{{
+nmap <Leader>c <Plug>(caw:i:toggle)
+vmap <Leader>c <Plug>(caw:i:toggle)
+" }}}
 
 set backspace=indent,eol,start
 set history=50
