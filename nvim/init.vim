@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 "python3 support
 let g:python3_host_prog = expand('$PYENV_ROOT') . '/shims/python3'
 
@@ -41,16 +43,16 @@ filetype plugin indent on
 
 " deoplete settings {{{
 let g:deoplete#enable_at_startup = 1
-" tabで下へ
-inoremap <expr><TAB> pumvisible() ? "\<Down>": "\<TAB>"
-" shift+tabで上へ
-inoremap <expr><S-TAB> pumvisible() ? "\<Up>": "\<S-TAB>"
+let g:deoplete#omni#input_patterns = {}
+
+"" vim-monster setting (ruby)
+let g:monster#completion#rcodetools#backend = "async_rct_complete"
+let g:deoplete#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 " }}}
 
 "---------------------------------------------
 "" 基本設定
 "---------------------------------------------
-" backスペースでtabなどを削除できるようにする
 set backspace=indent,eol,start
 set history=50
 set ignorecase
@@ -72,5 +74,17 @@ set backupdir=~/.config/nvim/tmp/bak
 set swapfile
 set directory=~/.config/nvim/tmp/swp
 set noundofile
+
+autocmd myvimrc BufRead,BufNewFile *.md set filetype=markdown
+autocmd myvimrc FileType markdown nnoremap <silent> <Leader>v :PrevimOpen <CR>
+autocmd myvimrc BufRead,BufNewFile *.slim set filetype=slim
+autocmd myvimrc BufNewFile,BufRead *.rb setlocal tabstop=2 shiftwidth=2
+
+" F9でvimrcを開き，F10でvimrcを読み込む
+nnoremap <F9> :tabedit $MYVIMRC<CR>
+nnoremap <F10> :source $MYVIMRC<CR>
+
+" C-Lでハイライトを消す 
+nnoremap <C-L> :nohl<CR><C-L>
 
 syntax on

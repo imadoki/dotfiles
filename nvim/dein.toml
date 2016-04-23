@@ -1,6 +1,10 @@
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+build = 'make'
+
 [[plugin]]
 repo = 'Shougo/deoplete.nvim'
 
@@ -21,3 +25,15 @@ hook_add = '''
   let g:molokai_original=1
   set background=dark
 '''
+
+[[plugin]]
+repo = 'osyo-manga/vim-monster'
+
+[[plugin]]
+repo = 'kannokanno/previm'
+
+[[plugin]]
+repo = 'tyru/open-browser.vim'
+
+[[plugin]]
+repo = 'slim-template/vim-slim'
