@@ -27,8 +27,14 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+
+[[plugins]]
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
+
+[[plugins]]
+repo = 'Chiel92/vim-autoformat'
 
 
 # unite plugins
