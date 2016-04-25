@@ -1,8 +1,8 @@
 scriptencoding utf-8
 
 "python3 support
-let g:python_host_prog = '/usr/local/var/pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog = '/usr/local/var/pyenv/versions/neovim3/bin/python'
+let g:python_host_prog = $PYENV_ROOT.'/versions/neovim2/bin/python'
+let g:python3_host_prog = $PYENV_ROOT.'/versions/neovim3/bin/python'
 
 if &compatible
   set nocompatible               " Be iMproved
@@ -114,7 +114,9 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 " *レジスタにもヤンクする
-set clipboard+=unnamed
+if has('mac')
+  set clipboard+=unnamed
+endif
 " バックアップファイルの設定
 set backup
 set backupdir=~/.config/nvim/tmp/bak
