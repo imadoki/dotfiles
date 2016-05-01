@@ -37,6 +37,11 @@ on_ft = 'toml'
 repo = 'Chiel92/vim-autoformat'
 
 
+# javascript
+[[plugins]]
+repo = 'othree/yajs.vim'
+
+
 # unite plugins
 [[plugins]]
 repo = 'Shougo/unite.vim'

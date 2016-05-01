@@ -87,6 +87,7 @@ let g:lightline = {
       \ }
 
 autocmd myvimrc FileType markdown nnoremap <silent> <Leader>v :PrevimOpen <CR>
+autocmd myvimrc FileType htmldjango setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
 " F9でvimrcを開き，F10でvimrcを読み込む
 nnoremap <F9> :tabedit $MYVIMRC<CR>
