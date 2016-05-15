@@ -37,6 +37,11 @@ on_ft = 'toml'
 repo = 'Chiel92/vim-autoformat'
 
 
+# textobj plugins
+[[plugins]]
+repo = "kana/vim-textobj-user"
+
+
 # javascript
 [[plugins]]
 repo = 'othree/yajs.vim'
@@ -48,6 +53,14 @@ repo = 'Shougo/unite.vim'
 
 [[plugins]]
 repo = 'ujihisa/unite-colorscheme'
+
+
+# filetype plugins
+[[plugins]]
+repo = "osyo-manga/vim-precious"
+
+[[plugins]]
+repo = "Shougo/context_filetype.vim"
 
 
 # python plugins
@@ -77,3 +90,4 @@ repo = 'tomasr/molokai'
 
 [[plugins]]
 repo = 'itchyny/lightline.vim' 
+
