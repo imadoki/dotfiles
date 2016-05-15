@@ -36,6 +36,13 @@ on_ft = 'toml'
 [[plugins]]
 repo = 'Chiel92/vim-autoformat'
 
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+let g:NERDTreeShowBookmarks = 1
+noremap <Leader>e :NERDTreeToggle<CR>
+'''
+
 
 # textobj plugins
 [[plugins]]
