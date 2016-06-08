@@ -64,6 +64,9 @@ repo = 'Shougo/unite.vim'
 [[plugins]]
 repo = 'ujihisa/unite-colorscheme'
 
+[[plugins]]
+repo = 'lambdalisue/unite-grep-vcs'
+
 
 # filetype plugins
 [[plugins]]

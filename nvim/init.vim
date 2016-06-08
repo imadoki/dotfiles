@@ -103,6 +103,16 @@ vmap <Leader>c <Plug>(caw:i:toggle)
   nnoremap [unite] <Nop>
   nmap <Leader>u [unite]
   nnoremap <silent> [unite]b :Unite buffer<CR>
+  function! s:unite_smart_grep()
+    if unite#sources#grep_git#is_available()
+      Unite grep/git:. -buffer-name=search-buffer
+    elseif unite#sources#grep_hg#is_available()
+      Unite grep/hg:. -buffer-name=search-buffer
+    else
+      Unite grep:. -buffer-name=search-buffer
+    endif
+  endfunction
+  nnoremap <silent> [unite]gg :<C-u>call <SID>unite_smart_grep()<CR>
 " }}}
 
 set backspace=indent,eol,start

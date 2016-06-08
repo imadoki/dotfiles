@@ -2,3 +2,4 @@
 nvim/tmp/
 nvim/dein/
 .init.vim-rplugin~
+.tmuxinator/*.yml
