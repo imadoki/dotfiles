@@ -114,6 +114,24 @@ vmap <Leader>c <Plug>(caw:i:toggle)
   endfunction
   nnoremap <silent> [unite]gg :<C-u>call <SID>unite_smart_grep()<CR>
 " }}}
+" memo settings {{{
+let s:memo_dir = "$HOME/Google ドライブ/kobito/contents/"
+function! s:edit_memo(...) abort
+  let filename = (a:0 > 0) ? a:1 : "index.md"
+  let subdir = (a:0 == 2) ? a:2 : ""
+  execute "edit " . escape(s:memo_dir . subdir . filename, " ")
+endfunction
+function! s:edit_memo_today() abort
+  let today = strftime("%Y%m%d", localtime())
+  let filename = today . ".md"
+  call s:edit_memo(filename, "memos/")
+endfunction
+" とにかくメモだけ取るようのindex.mdを開くコマンド
+command! EditIndex call s:edit_memo()
+command! EditMemo call s:edit_memo_today()
+" メモ一覧をUniteで開くコマンド
+command! OpenMemoList :execute "Unite file_rec:" . escape(s:memo_dir, " ") . " -buffer-name=memo_list"
+" }}}
 
 set backspace=indent,eol,start
 set history=50
