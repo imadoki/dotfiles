@@ -70,9 +70,10 @@ let g:indent_guides_guide_size = 1
 " }}}
 
 syntax on
-colorscheme molokai
-let g:molokai_original=1
-set background=dark
+colorscheme inkpot
+" colorscheme molokai
+" let g:molokai_original=1
+" set background=dark
 set laststatus=2
 set noshowmode
 let g:lightline = {
