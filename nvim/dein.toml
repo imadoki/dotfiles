@@ -114,5 +114,8 @@ repo = 'tomasr/molokai'
 repo = 'ciaranm/inkpot'
 
 [[plugins]]
+repo = 'sjl/badwolf'
+
+[[plugins]]
 repo = 'itchyny/lightline.vim' 
 

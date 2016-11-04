@@ -70,7 +70,9 @@ let g:indent_guides_guide_size = 1
 " }}}
 
 syntax on
-colorscheme inkpot
+colorscheme badwolf
+highlight Normal ctermbg=none
+" colorscheme inkpot
 " colorscheme molokai
 " let g:molokai_original=1
 " set background=dark
